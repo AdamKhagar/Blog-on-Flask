@@ -1,10 +1,6 @@
-from flask import Flask, render_template, request
-from forms import LoginForm
-from secret import secret_key
-
-app = Flask(__name__)
-app.debug = True
-app.config['SECRET_KEY'] = secret_key
+from app import app
+from flask import render_template, request
+from .forms import LoginForm
 
 @app.route('/')
 def main():
@@ -20,6 +16,3 @@ def login():
 @app.route('/registration/')
 def registration():
     pass
-
-if __name__ == '__main__':
-    app.run()
