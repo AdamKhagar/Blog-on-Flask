@@ -21,18 +21,15 @@ def main():
 def login():
     form = LoginForm()
     if form.validate_on_submit() and request.method == 'POST':
-        user = db.session.query(UserModel).filter(
-            UserModel.username == form.username.data \
-            or UserModel.email == form.username.data
-        ).first()
+        user = db.session.query(UserModel).filter(UserModel.username == form.username.data ).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember.data)
-            redirect(url_for('main'))
+            return redirect(url_for('main'))
         
         flash('Invalid username/password', 'error')
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
         
-    return render_template('login.html', form=form)
+    return render_template('login.html', title='Login', form=form)
 
 @app.route('/register/', methods=['GET', 'POST'])
 def registration():
@@ -53,11 +50,11 @@ def registration():
 
         login_user(user, remember=form.remember.data)
 
-    return render_template('login.html', form=form)
+    return render_template('login.html',title='Register', form=form)
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash("You have been logged out.")
-    redirect(url_for('login'))
+    return redirect(url_for('login'))
