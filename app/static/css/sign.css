@@ -1,0 +1,236 @@
+input:focus, input:hover{
+    outline: 0;
+}
+
+body {
+    background-color:#636e72;
+    display: flex;
+    justify-content: center;
+    height: auto;
+    align-items: center;
+    color: white;
+    /* font-family: sans-serif; */
+}
+
+.form {
+    background-color: #2d3436;
+    padding: 40px 50px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 300px;
+    
+}
+
+body.log {
+    height: 100vh;
+}
+
+.form.reg {
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 500;
+    margin: 20px;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 20px 20px 20px;
+}
+
+.field {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    width: 280px;
+}
+
+input[type=text], 
+input[type=email],
+input[type=password] {
+    background-color: #2d3436;
+    color: white;
+    border: #fdcb6e solid 3px;
+    border-radius: 30px;
+    padding: 10px;
+    width: 250px;
+    height: 30px;
+    text-align: center;
+    font-family: serif;
+    /* font-family: 700; */
+}
+
+.remember.field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    width: 280px;
+}
+
+label {
+    display: block;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 500;
+}
+
+#remember {
+    position: relative;
+    
+    width: 52px;
+    height: 30px;
+    margin: 0;
+  
+    vertical-align: top;
+  
+    background: #2d3436;
+    border: 3px solid #fdcb6e;
+    border-radius: 15px;
+    outline: none;
+    cursor: pointer;
+  
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+      
+    transition: all 0.3s linear;
+}
+
+#remember::after {
+    content: "";
+
+    position: absolute;
+    left: 1px;
+    top: 1px;
+
+    width: 21px;
+    height: 21px;
+    background-color: #fdcb6e;
+    border-radius: 50%;
+
+    transform: translateX(0);
+
+    transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
+}
+
+.reg #remember::after {
+    top: 1px;
+}
+#remember:checked::after {
+    transform: translateX(100%);
+    background-color: #2d3436;
+}
+
+#remember:checked {
+    background-color: #fdcb6e;
+}
+
+.a-box {
+    width: 280px;
+    height: 50px;
+    border: 3px solid #fdcb6e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+}
+
+a {
+    margin: auto 0;
+    color:  #fdcb6e;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+input[type=submit] {
+    background-color: #2d3436;
+    color: #2d3436;
+    height: 50px;
+    width: 280px;
+    border-radius: 25px;
+    background-color: #fdcb6e;
+    border:  #fdcb6e solid 3px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.agree-label {
+    display: flex;
+    justify-content: space-between;
+    width: 280px;
+}
+
+.field.agree input{
+    display: none;
+}
+
+.agree-label #agree:checked + .agree-box {
+    background: #fdcb6e;
+}
+
+.agree-box {
+    width: 14px;
+    height: 14px;
+    border: 3px solid #fdcb6e;
+    border-radius: 10px;
+    background: #2d3436;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.agree-text {
+    width: 240px;
+    height: 40px;
+    text-align: center;
+}
+
+.sep {
+    height: 1px;
+    width: 230px;
+    border-radius: 10px;
+    background-color: #fdcb6e;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    font-weight: 100;
+    font-size: 15px;
+    color:    #dfe6e9;
+ }
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-weight: 100;
+    font-size: 15px;
+    color:    #dfe6e9;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-weight: 100;
+    font-size: 16px;
+    color:    #dfe6e9;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    font-weight: 100;
+    font-size: 15px;
+    color:    #dfe6e9;
+}

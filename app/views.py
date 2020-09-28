@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_required, login_user, current_user, logout_user
 from .models import UserModel
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, BooleanField
 import json
 
 login_manager = LoginManager(app)
@@ -13,7 +13,6 @@ def load_user(user_id):
 
 @app.route('/')
 @app.route('/main/')
-@login_required
 def main():
     return '<h1>about</h1>'
 
@@ -29,10 +28,10 @@ def login():
         flash('Invalid username/password', 'error')
         return redirect(url_for('login'))
         
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', form=form)
 
 @app.route('/register/', methods=['GET', 'POST'])
-def registration():
+def register():
     form = RegisterForm()
     if form.validate_on_submit() and request.method == 'POST':
         user = UserModel()
@@ -50,7 +49,7 @@ def registration():
 
         login_user(user, remember=form.remember.data)
 
-    return render_template('login.html',title='Register', form=form)
+    return render_template('register.html', form=form)
 
 @app.route('/logout')
 @login_required
@@ -58,3 +57,7 @@ def logout():
     logout_user()
     flash("You have been logged out.")
     return redirect(url_for('login'))
+
+@app.route('/licence')
+def licence():
+    return '<h2>Теперь мы будем продавать твои данные</h2>'
