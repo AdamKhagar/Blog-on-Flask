@@ -9,7 +9,7 @@ body {
     height: auto;
     align-items: center;
     color: white;
-    /* font-family: sans-serif; */
+    font-family: "Montserrat";
 }
 
 .form {
@@ -35,14 +35,14 @@ body.log {
 
 h1 {
     font-size: 48px;
-    font-weight: 500;
+    font-weight: 400;
     margin: 20px;
     text-transform: uppercase;
 }
 
 h3 {
     font-size: 24px;
-    font-weight: 400;
+    font-weight: 200;
     margin: 20px;
 }
 
@@ -72,8 +72,7 @@ input[type=password] {
     width: 250px;
     height: 30px;
     text-align: center;
-    font-family: serif;
-    /* font-family: 700; */
+    font-weight: 100;
 }
 
 .remember.field {
@@ -169,7 +168,14 @@ input[type=submit] {
     background-color: #fdcb6e;
     border:  #fdcb6e solid 3px;
     font-size: 20px;
-    font-weight: 700;
+    font-family: "Monteserrat";
+    font-weight: 500;
+    transition: color 1s ease-in-out;
+}
+
+input[type=submit]:hover {
+    background-color: #2d3436;
+    color: #fdcb6e;
 }
 
 .agree-label {

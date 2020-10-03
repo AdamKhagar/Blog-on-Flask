@@ -12,19 +12,15 @@
 
         {% for field in form if field.name != "csrf_token" %}
         <div class='field'>
-            {{ field }}
+            {{ field.label() }}
+            {{ field() }}
                 {% for error in field.errors %}
                 <p class="error">{{ error }}</p>
                 {% endfor %}  
         </div>
         {% endfor %}
-        <div class="fields">
-            <a href="{{ url_for('licence') }}">License agreement</a>
-        </div>
-        <div class="fields">
-            <a href="{{ url_for('login') }}">Sign In</a>
-            <input type="submit" value="Sign Up">
-        </div>
     </form>
+    <p class="licence">When you click the Sign Up button you automatically agree to the terms of the <a href="{{ url_for('licence') }}">licence agreement</a>.</p>
+    <p class="login"><a href="{{ url_for('login') }}"></a></p>
 </body>
 </html>

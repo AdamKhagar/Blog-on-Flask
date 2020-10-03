@@ -5,26 +5,24 @@
     <title>Sign In</title>
 </head>
 <body>
+    <h1>Log In</h1>
     <div>
     {% for category, message in  get_flashed_messages(with_categories=true) %}
 	<spam class="{{ category }}">{{ message }}</spam>
     {% endfor %}
     <form action='' method="POST">
         {{ form.csrf_token() }}
-
         {% for field in form if field.name != "csrf_token" %}
         <div class='field'>
-            {{ field }}
+            {{ field.label()}}
+            {{ field() }}
                 {% for error in field.errors %}
                 <p class="error">{{ error }}</p>
                 {% endfor %}  
         </div>
         {% endfor %}
-        <div class="field">
-            <a href="{{ url_for('register') }}">Sign Up</a>
-            <input type="submit" value="Sign In">
-        </div>
     </form>
+    <p class="signup"><a href="{{ url_for('register') }}">Sign Up</a></p>
     </div>
 </body>
 </html>

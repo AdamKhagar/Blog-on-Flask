@@ -3,21 +3,21 @@ from wtforms import StringField, BooleanField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Email, length, EqualTo
 
 class LoginForm(FlaskForm):
-    username = StringField(render_kw={'placeholder': 'Username'}, validators=[DataRequired()])
-    password = PasswordField(render_kw={'placeholder': 'Password'}, validators=[DataRequired()])
-    remember = BooleanField('Remember me')
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember = BooleanField('Remember me', render_kw={'addLabel': '+', 'label': 'Remember Me'})
+    submit = SubmitField('', render_kw={'value': 'Log In'})
 
 class RegisterForm(FlaskForm):
-    name = StringField(validators=[DataRequired(), length(max=20)], render_kw={'placeholder': 'Name'})
-    lastname = StringField(validators=[length(max=20)], render_kw={'placeholder': 'Lastname'})
-    username = StringField(validators=[DataRequired(), length(max=20)], render_kw={'placeholder': 'Username'})
-    email = StringField(validators=[DataRequired(), Email()], render_kw={'type': 'email', 'placeholder': 'Email'})
-    password = PasswordField(validators=[
+    name = StringField('Name', validators=[DataRequired(), length(max=20)])
+    lastname = StringField('Lastname', validators=[length(max=20)])
+    username = StringField('Username', validators=[DataRequired(), length(max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()], render_kw={'type': 'email's})
+    password = PasswordField('Password', validators=[
         DataRequired(),
         length(min=8, max=20),
-        EqualTo('confirm', message='Passwords must be the same')], 
-        render_kw={'placeholder': 'Password'}
+        EqualTo('confirm', message='Passwords must be the same')]
     )
-    confirm = PasswordField(render_kw={'placeholder': 'Password again'})
+    confirm = PasswordField('Password again')
     remember = BooleanField('Remember me')
-    agree = BooleanField('I agree to the terms of the license agreement')
+    submit = SubmitField('', render_kw={'value': 'Sign Up'})

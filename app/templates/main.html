@@ -3,21 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../static/css/font.css">
-    <title>{{title}}</title>
+    <link rel="stylesheet" href="../static/css/main.css">
+    <title></title>
 </head>
 <body>
     <header>
-        <div>
-            <a href="{{ url_for('main') }}">aison</a>
-        </div>
-        <div>
-            <div>
-                <a href="{{ url_for('login') }}">Вход</a>
+        <div class="header-box">
+        <div class="header">
+            <div class="logo">
+                <a href="{{ url_for('main') }}">aison</a>
             </div>
-            <div>
-                <a href="{{ url_for('register') }}">Регистрация</a>
+            <div class="login hidden">
+                <a href="{{ url_for('login') }}"><div>
+                    Sign in
+                </div></a>
+                <a href="{{ url_for('register') }}"><div>
+                    Sign up
+                </div></a>           
+            </div>
+            <div class="user-info hidden">
+                <a href="#"><div>
+                    
+                </div></a>
             </div>
         </div>
+        </div>
+
     </header>
+    <main>
+        <div class="searchbar-box">
+            <div class="searchbar">
+                <!-- <div class="post">
+                    <a href="#"><div>Post</div></a>
+                </div> -->
+                <form action="" class="search">
+                    <input type="text" name="search" id="search" placeholder="...my blog on python">
+                    <input type="submit" value="Find">
+                </form>
+            </div>
+            </div>
+
+        <template id="post-prev-temp">
+            <div>
+                <div class="title"></div>
+                <div class="tags"></div>
+                <div class="info"></div>
+            </div>
+        </template>
+    </main>
+    <footer>
+
+    </footer>
 </body>
 </html>
