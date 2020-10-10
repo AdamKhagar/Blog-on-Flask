@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post</title>
+</head>
+<body>
+    <header>
+        {% include "header.html" %}
+    </header>
+    <main>
+        <h1>New post</h1>
+        {% for category, message in  get_flashed_messages(with_categories=true) %}
+        <spam class="{{ category }}">{{ message }}</spam>
+        {% endfor %}
+        <form action="" method="POST">
+            {{ form.csrf_token() }}
+            {% for field in form if field.name != "csrf_token" %}
+            <div class='field'>
+                {{ field.label()}}
+                {{ field() }}
+                    {% for error in field.errors %}
+                    <p class="error">{{ error }}</p>
+                    {% endfor %}  
+            </div>
+            {% endfor %}
+        </form>
+    </main>
+</body>
+</html>

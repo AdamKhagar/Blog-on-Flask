@@ -4,6 +4,7 @@
     <title>Sign Up</title>
 </head>
 <body>
+    <h1>Sign Up</h1>
     {% for category, message in  get_flashed_messages(with_categories=true) %}
 	<spam class="{{ category }}">{{ message }}</spam>
     {% endfor %}
@@ -21,6 +22,6 @@
         {% endfor %}
     </form>
     <p class="licence">When you click the Sign Up button you automatically agree to the terms of the <a href="{{ url_for('licence') }}">licence agreement</a>.</p>
-    <p class="login"><a href="{{ url_for('login') }}"></a></p>
+    <p class="login"><a href="{{ url_for('login') }}">Log In</a></p>
 </body>
 </html>

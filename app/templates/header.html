@@ -1,0 +1,19 @@
+<div class="logo">aison</div>
+{% if current_user.is_authenticated %}
+<div class="logout">
+    <a href="{{ url_for('logout') }}"><div>
+        Sign Out
+    </div></a>
+</div>
+{% else %}
+<div class="login">
+    <a href="{{ url_for('login') }}"><div>
+        Log In
+    </div></a>
+</div>
+<div class="signup">
+    <a href="{{ url_for('register') }}"><div>
+        Sign Up
+    </div></a>
+</div>
+{% endif %}

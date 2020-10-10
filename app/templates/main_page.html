@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>aison</title>
+</head>
+<body>
+    <header>
+        {% include "header.html" %}
+    </header>
+    <main>
+        <div class="post"><a href="{{ url_for('new_post') }}">+ Post</a></div>
+        <form id="post-search">
+            <select name="category" id="category">
+                <option value="all">All categories</option>
+                {% for option in options %}
+                <option value="{{ option[0] }}">{{ option[1] }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="search" id="search">
+        </form>
+        <div class="posts">
+            <template id="post-template">
+                <div class="post">
+                    <div class="title"></div>
+                    <!-- <div class="category"></div> -->
+                    <div class="date"></div>
+                    <div class="content"></div>
+                </div>
+            </template>
+        </div>
+    </main>
+    <script src="../static/js/getPost.js"></script>
+</body>
+</html>
