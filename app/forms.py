@@ -11,6 +11,7 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember me', render_kw={'addLabel': '+', 'label': 'Remember Me'})
     submit = SubmitField('', render_kw={'value': 'Log In'})
 
+
 class RegisterForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), length(max=20)])
     lastname = StringField('Lastname', validators=[length(max=20)])
@@ -19,11 +20,12 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[
         DataRequired(),
         length(min=8, max=20),
-        EqualTo('confirm', message='Passwords must be the same')]
-    )
+        EqualTo('confirm', message='Passwords must be the same')
+    ])
     confirm = PasswordField('Password again')
     remember = BooleanField('Remember me')
     submit = SubmitField('', render_kw={'value': 'Sign Up'})
+
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), length(max=255)])

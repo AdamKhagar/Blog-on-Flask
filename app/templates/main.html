@@ -2,57 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css">
     <link rel="stylesheet" href="../static/css/font.css">
     <link rel="stylesheet" href="../static/css/main.css">
-    <title></title>
+    <title>aison</title>
 </head>
 <body>
     <header>
-        <div class="header-box">
-        <div class="header">
-            <div class="logo">
-                <a href="{{ url_for('main') }}">aison</a>
-            </div>
-            <div class="login hidden">
-                <a href="{{ url_for('login') }}"><div>
-                    Sign in
-                </div></a>
-                <a href="{{ url_for('register') }}"><div>
-                    Sign up
-                </div></a>           
-            </div>
-            <div class="user-info hidden">
-                <a href="#"><div>
-                    
-                </div></a>
-            </div>
-        </div>
-        </div>
-
+        {% include "header.html" %}
     </header>
     <main>
-        <div class="searchbar-box">
-            <div class="searchbar">
-                <!-- <div class="post">
-                    <a href="#"><div>Post</div></a>
-                </div> -->
-                <form action="" class="search">
-                    <input type="text" name="search" id="search" placeholder="...my blog on python">
-                    <input type="submit" value="Find">
-                </form>
+    <div class="main">
+        <div class="add-post"><a href="{{ url_for('new_post') }}"><div>Add Post</div></a></div>
+        <form id="post-search">
+            <select name="category" id="category">
+                <option value="all">All categories</option>
+                {% for option in options %}
+                <option value="{{ option[0] }}">{{ option[1] }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="search" id="search" placeholder="#tag or name ...">
+        </form>
+        <div class="posts">
+            <!-- <div class="post">
+                <div class="title">
+                    first-post
+                </div>
+                <div class="date">
+                    10/05/2020, 13:31:39
+                </div>
+                <div class="content">
+                    it's work
+                </div>
             </div>
+            <div class="post">
+                <div class="title">
+                    Python
+                </div>
+                <div class="date">
+                    10/05/2020, 14:03:17
+                </div>
+                <div class="content">
+                    Python is best lang
+                </div>
             </div>
-
-        <template id="post-prev-temp">
-            <div>
-                <div class="title"></div>
-                <div class="tags"></div>
-                <div class="info"></div>
-            </div>
-        </template>
+            <div class="post">
+                <div class="title">
+                    JavaScript
+                </div>
+                <div class="date">
+                    10/05/2020, 15:26:58
+                </div>
+                <div class="content">
+                    js is a good choice
+                </div>
+            </div> -->
+            <template id="post-template">
+                <div class="post">
+                    <div class="title"></div>
+                    <div class="date"></div>
+                    <div class="content"></div>
+                </div>
+            </template>
+        </div>
+    </div>
     </main>
-    <footer>
-
-    </footer>
+    <footer></footer>
+    <script src="../static/js/getPost.js"></script>
 </body>
 </html>

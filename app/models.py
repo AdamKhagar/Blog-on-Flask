@@ -27,6 +27,7 @@ class User(db.Model, UserMixin):
         '''check password'''
         return check_password_hash(self.password_hash, password)
 
+
 class Category(db.Model):
     __table_args__ = {'extend_existing': True} 
     __tablename__ = 'categories'
@@ -42,12 +43,14 @@ class Category(db.Model):
     def get_list():
         return db.session.query(Category.id, Category.name).all()
 
+
 post_tags = db.Table(
     'post_tags', 
     db.Column('post_id', db.Integer(), db.ForeignKey('posts.id')), 
     db.Column('tag_id', db.Integer(), db.ForeignKey('tags.id')),
     extend_existing=True
 )
+
 
 class Tag(db.Model): 
     __table_args__ = {'extend_existing': True} 
@@ -81,6 +84,7 @@ class Tag(db.Model):
 
         return tags_id_list
 
+
 class Post(db.Model):
     __table_args__ = {'extend_existing': True} 
     __tablename__ = 'posts'
@@ -90,7 +94,6 @@ class Post(db.Model):
     content = db.Column(db.String(), nullable=False)
     category_id = db.Column(db.Integer(), db.ForeignKey('categories.id'))
     author_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
-    # tags = db.relationship('Tag', secondary=post_tags, backref='posts')  
 
     def get(self):
         return {
@@ -100,5 +103,7 @@ class Post(db.Model):
             'pub_date': self.publication_date.strftime("%m/%d/%Y, %H:%M:%S"),
             'content': self.content
         }
+
+        
 # db.metadata.clear()
 db.create_all()
