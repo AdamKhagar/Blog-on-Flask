@@ -50,7 +50,6 @@ def register():
             return redirect(url_for('register'))
 
         login_user(user, remember=form.remember.data)
-
         return redirect(url_for('main'))
 
     return render_template('register.html', form=form)
@@ -101,3 +100,8 @@ def get_posts(category_id):
     
     # print([post.get() for post in posts])
     return {'posts': [post.get() for post in posts]}
+
+@app.login_manager.unauthorized_handler
+def unauth_handler():
+    flash("Authorize please to access this page")
+    return redirect(url_for("login"))
