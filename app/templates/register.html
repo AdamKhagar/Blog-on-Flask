@@ -1,27 +1,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/sign.css">
     <title>Sign Up</title>
 </head>
 <body>
-    <h1>Sign Up</h1>
-    {% for category, message in  get_flashed_messages(with_categories=true) %}
-	<spam class="{{ category }}">{{ message }}</spam>
-    {% endfor %}
-    <form action='' method="POST">
-        {{ form.csrf_token() }}
-
-        {% for field in form if field.name != "csrf_token" %}
-        <div class='field'>
-            {{ field.label() }}
-            {{ field() }}
-                {% for error in field.errors %}
-                <p class="error">{{ error }}</p>
-                {% endfor %}  
-        </div>
-        {% endfor %}
-    </form>
-    <p class="licence">When you click the Sign Up button you automatically agree to the terms of the <a href="{{ url_for('licence') }}">licence agreement</a>.</p>
-    <p class="login"><a href="{{ url_for('login') }}">Log In</a></p>
+    <div class="box registerpage">
+        <div class="logo">aison</div>
+        <div class="signup">Sign Up</div>
+        <!-- {% for category, message in  get_flashed_messages(with_categories=true) %}
+        <div class="{{ category }}">{{ message }}</div>
+        {% endfor %} -->
+        <form action='' method="POST">
+            <!-- <div class="field">
+                <label for="login">Username</label>
+                <input type="text" name="" id="login">
+            </div>
+            <div class="field">
+                <label for="login">Username</label>
+                <input type="text" name="" id="login">
+            </div>
+            <div class="field">
+                <label for="login">Username</label>
+                <input type="text" name="" id="login">
+            </div>
+            <div class="field">
+                <label for="login">Username</label>
+                <input type="text" name="" id="login">
+            </div>
+            <div class="field">
+                <label for="pass">Password</label>
+                <input type="password" name="" id="pass">
+            </div>
+            <div class="field">
+                <label for="pass">Password</label>
+                <input type="password" name="" id="pass">
+            </div>
+            <div class="field">
+                <label for="remember" class="text">Remember me</label>
+                <input type="checkbox" name="remember" id="remember" class="remember">
+            </div>
+            <div class="field">
+                <input type="submit" value="Log In">
+            </div> -->
+            {{ form.csrf_token() }}
+            {% for field in form if field.name != "csrf_token" %}
+            <div class='field'>
+                {{ field.label() }}
+                {{ field() }}
+                    {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>
+                    {% endfor %}  
+            </div>
+            {% endfor %}
+        </form>
+        <!-- <div class="line"></div> -->
+        <div class="licence">When you click the Sign Up button you automatically agree to the terms of the <a href="{{ url_for('licence') }}">licence agreement</a>.</div>
+        <div class="iine"></div>
+        <a href="{{ url_for('login') }}"><div class="redirect">Log In</div></a>
+    </div>
 </body>
 </html>

@@ -72,8 +72,6 @@ def new_post():
         post.category_id = form.category.data
         post.content = form.text.data
         post.author_id = current_user.get_id()
-        
-
 
         tags = form.tags.data.split()
 

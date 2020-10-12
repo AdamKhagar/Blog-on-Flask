@@ -2,27 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/sign.css">
     <title>Sign In</title>
+    
 </head>
 <body>
-    <h1>Log In</h1>
-    <div>
-    {% for category, message in  get_flashed_messages(with_categories=true) %}
-    <spam class="{{ category }}">{{ message }}</spam>
-    {% endfor %}
-    <form action='' method="POST">
-        {{ form.csrf_token() }}
-        {% for field in form if field.name != "csrf_token" %}
-        <div class='field'>
-            {{ field.label()}}
-            {{ field() }}
-                {% for error in field.errors %}
-                <p class="error">{{ error }}</p>
-                {% endfor %}  
-        </div>
+    <div class="box loginpage">
+        <div class="logo">aison</div>
+        <div class="login">Log In</div>
+        {% for category, message in  get_flashed_messages(with_categories=true) %}
+        <div class="error">{{ message }}</div>
         {% endfor %}
-    </form>
-    <p class="signup"><a href="{{ url_for('register') }}">Sign Up</a></p>
+        <form action='' method="POST">
+            <!-- <div class="field">
+                <label for="login">Username</label>
+                <input type="text" name="" id="login">
+            </div>
+            <div class="field">
+                <label for="pass">Password</label>
+                <input type="password" name="" id="pass">
+            </div>
+            <div class="field">
+                <label for="remember" class="text">Remember me</label>
+                <input type="checkbox" name="remember" id="remember" class="remember">
+            </div>
+            <div class="field">
+                <input type="submit" value="Log In">
+            </div> -->
+            {{ form.csrf_token() }}
+            {% for field in form if field.name != "csrf_token" %}
+            <div class="field">
+                {{ field.label()}}
+                {{ field() }}
+                    {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>
+                    {% endfor %}  
+            </div>
+            {% endfor %}
+        </form>
+        <!-- <div class="line"></div> -->
+        <a href="{{ url_for('register') }}"><div class="redirect">Sign Up</div></a>
     </div>
 </body>
 </html>
