@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for, flash, jsonify
 from flask_login import LoginManager, login_required, login_user, current_user, logout_user
 from .models import User, Post, Category, Tag
 from .forms import LoginForm, RegisterForm, PostForm
-import json
+from sqlalchemy.exc import IntegrityError
 
 login_manager = LoginManager(app)
 
@@ -42,8 +42,12 @@ def register():
         user.email = form.email.data
         user.set_password(form.password.data)
         
-        db.session.add(user)
-        db.session.commit()
+        try: 
+            db.session.add(user)
+            db.session.commit()
+        except IntegrityError:
+            flash("The system already has an account with the same name and/or mail.")
+            return redirect(url_for('register'))
 
         login_user(user, remember=form.remember.data)
 

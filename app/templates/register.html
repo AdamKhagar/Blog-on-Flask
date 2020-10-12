@@ -10,9 +10,9 @@
     <div class="box registerpage">
         <div class="logo">aison</div>
         <div class="signup">Sign Up</div>
-        <!-- {% for category, message in  get_flashed_messages(with_categories=true) %}
-        <div class="{{ category }}">{{ message }}</div>
-        {% endfor %} -->
+        {% for category, message in  get_flashed_messages(with_categories=true) %}
+        <div class="error">{{ message }}</div>
+        {% endfor %}
         <form action='' method="POST">
             <!-- <div class="field">
                 <label for="login">Username</label>
