@@ -8,7 +8,7 @@ from .models import Category
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember me', render_kw={'addLabel': '+', 'label': 'Remember Me'})
+    remember = BooleanField('Remember me', render_kw={'label': 'Remember Me'})
     submit = SubmitField('', render_kw={'value': 'Log In'})
 
 
@@ -29,9 +29,9 @@ class RegisterForm(FlaskForm):
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), length(max=255)])
-    category = SelectField('Select category', validators=[DataRequired()],
+    tags = StringField('Tags')
+    category = SelectField('Category', validators=[DataRequired()],
         choices=Category.get_list()
     )
-    tags = StringField('Tags (Enter tags comma)')
-    text = TextAreaField('Post text', validators=[DataRequired()])
+    text = TextAreaField('Post text', validators=[DataRequired()], render_kw={'resize': 'none', 'wrap': 'hard'})
     submit = SubmitField('', render_kw={'value': 'Post'})

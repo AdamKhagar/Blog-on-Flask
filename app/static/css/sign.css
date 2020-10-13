@@ -24,10 +24,18 @@ body {
     margin-top: 150px;
 }
 
+a {
+    text-decoration: none; 
+}
 .logo {
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 20px;
-    
+    width: 30px;
+    color: #2980b9 
+}
+
+.logo:hover {
+    color: #3498db
 }
 
 .login, 
@@ -117,7 +125,7 @@ input:focus {
     height: 24px;
     border: 2px solid #2980b9;
     border-radius: 3px;
-    transition: transform 0.5s ease-in, border 0.2s ease-in;
+    transition: transform 0.3s ease-in, border 0.2s ease-in;
     outline: none;
 }
 
@@ -126,8 +134,7 @@ input:focus {
 }
 
 #remember:checked {
-    transform: rotate(585deg);
-    border-width: 3px;
+    transform: rotate(225deg);
     border-right: none;
     border-bottom: none;
     border-color: #3498db;

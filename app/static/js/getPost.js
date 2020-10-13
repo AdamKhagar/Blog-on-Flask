@@ -40,14 +40,6 @@ function getPosts(category = 'all') {
         addPosts(posts)
     }
 
-    // var responce = request.responseType;
-    // if (request.status != 200) {
-    //     alert( request.status + ': ' + request.statusText ); 
-    // } else {
-        
-    // }
-
-
 };
 
 getPosts()

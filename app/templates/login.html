@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="box loginpage">
-        <div class="logo">aison</div>
+        <a href="{{ url_for('main') }}"><div class="logo">aison</div></a>
         <div class="login">Log In</div>
         {% for category, message in  get_flashed_messages(with_categories=true) %}
         <div class="error">{{ message }}</div>

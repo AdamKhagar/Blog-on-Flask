@@ -10,6 +10,10 @@ main {
     justify-content: center;
 }
 
+.hidden {
+    display: none !important; 
+}
+
 *, :hover, :active {
     /* border: none; */
     outline: none;
@@ -37,8 +41,8 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
-    color: #2980b9;
+    background-color: #2980b9;
+    color: white;
     transition: color 0.05s linear;
     
 }
@@ -50,8 +54,9 @@ main {
 }
 
 .add-post div:hover {
-    color: #ecf0f1;
-    background-color: #2980b9;
+    /* color: #ecf0f1; */
+    background-color: #3498db;
+    border-color: #3498db;
 }
 
 form {
@@ -115,12 +120,19 @@ input {
 
 .post .title {
     font-size: 30px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .post .date {
     font-size: 12px;
     margin-bottom: 20px;
+}
+
+.post .content {
+    font-size: 16px;
+    line-height: 24px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 
