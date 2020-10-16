@@ -6,20 +6,24 @@
     <link rel="stylesheet" href="../static/css/header.css">
 </head>
 <body>
-<div class="header-box">
+<div class="header-box" id="header-box">
 <div class="header">
-    <div class="logo">
+    <div class="logo" id="logo">
         <a href="{{ url_for('main') }}"><div>
             aison
         </div></a>  
     </div>
     <div class="profile">
         {% if current_user.is_authenticated %}
-        <div class="logout">
-            <a href="{{ url_for('logout') }}"><div>
-                Sign Out
-            </div></a>
+        <div id="header-menu">
+            <div id="username"></div>
+            <div id="menu">
+                <a href="{{ url_for('get_my_page') }}"><div>My page</div></a>
+                <a href="{{ url_for('get_my_posts') }}"><div>My posts</div></a>
+                <a href="{{ url_for('logout') }}"><div>Sign Out</div></a>
+            </div>
         </div>
+        <script src="../static/js/header.js"></script>
         {% else %}
         <div class="login">
             <a href="{{ url_for('login') }}"><div>

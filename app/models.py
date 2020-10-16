@@ -27,6 +27,19 @@ class User(db.Model, UserMixin):
         '''check password'''
         return check_password_hash(self.password_hash, password)
 
+    def get(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "lastname": self.lastname,
+            "username": self.username, 
+            "email": self.email
+        }
+
+    def get_posts(self):
+        posts = db.session.query(Tag).filter(Tag.author_id == self.id).all()
+        return [post.get() for post in posts]
+
 
 class Category(db.Model):
     __table_args__ = {'extend_existing': True} 
@@ -101,7 +114,9 @@ class Post(db.Model):
             'title': self.title,
             'category_id': self.category_id,
             'pub_date': self.publication_date.strftime("%m/%d/%Y, %H:%M:%S"),
-            'content': self.content
+            'content': self.content, 
+            'author': db.session.query(User.username).filter(
+                User.id == self.author_id).first()[0]
         }
 
         

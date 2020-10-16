@@ -8,7 +8,7 @@ textarea.addEventListener('keyup', function(){
             qtyOfStrings++;
         }
     }
-    var heihgtValue = 20 * (1 + qtyOfStrings);
+    var heihgtValue = 24 * (1 + qtyOfStrings);
     if (heihgtValue <= 210) {
         heihgtValue = 210;
     } 

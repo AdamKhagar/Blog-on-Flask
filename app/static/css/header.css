@@ -3,18 +3,21 @@
     background-color: #2980b9;
     display: flex;
     justify-content: center;
+    transition: background-color 0.3s ease-in-out;
 }
+
 .header {
     display: flex;
     width: 50%;
-    min-width: 500px;
+    min-width: 600px;
     justify-content: space-between;
-    height: 30px;
+    height: 40px;
     align-items: center;
 }
 
 .header a {
-    color: #ecf0f1;
+    color: white;
+    text-decoration: none;
 }
 
 .logo a {
@@ -28,6 +31,64 @@
     display: flex;
 }
 
-.profile * {
-    margin: 0 5px;
+#header-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0 0 0 5px;
+    box-sizing: border-box;
+}
+
+#username {
+    font-family: 'Roboto Mono';
+    font-size: 16px;
+    line-height: 40px;
+    color: white;
+    padding: 0 5px 0 10px;
+    transition: backround-color 0.3 ease-in-out;
+}
+
+#menu {
+    position: absolute;
+    top: 40px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    width: inherit;
+    padding: 2px 5px 5px 5px;
+    background-color: #2980b9;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2), -4px 4px 5px rgba(0, 0, 0, 0.2);
+    /* box-sizing: border-box; */
+
+    transform-origin: 0 0;
+    transform: scaleY(0);
+    transition: transform 0.2s ease-in-out;
+}
+
+#menu div {
+    text-align: center;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 5px 0;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    width: inherit;
+    transition: background-color 0.1s ease-in-out;
+}
+
+#menu div:last-child {
+    margin: 0;
+}
+
+#username:hover,
+#menu div:hover {
+    background-color: #3498db;
+}
+
+#username:hover + #menu,
+#menu:hover {
+    transform: scaleY(1);
 }

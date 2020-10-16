@@ -121,3 +121,20 @@ def get_posts(category_id):
 def unauth_handler():
     flash("Authorize please to access this page")
     return redirect(url_for("login"))
+
+@app.route('/current_user_info')
+@login_required
+def get_current_user_info():
+    user = db.session.query(User).filter(
+        User.id == current_user.get_id()).first()
+    return jsonify(user.get())
+
+@app.route('/my_page')
+@login_required
+def get_my_page():
+    pass
+
+@app.route('/my_posts')
+@login_required
+def get_my_posts():
+    pass
