@@ -1,9 +1,11 @@
 .header-box {
+    position: fixed;
     width: 100%;
-    background-color: #2980b9;
+    background-color: #34495e;
     display: flex;
     justify-content: center;
     transition: background-color 0.3s ease-in-out;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .header {
@@ -42,10 +44,11 @@
 #username {
     font-family: 'Roboto Mono';
     font-size: 16px;
-    line-height: 40px;
+    line-height: 39px;
     color: white;
-    padding: 0 5px 0 10px;
-    transition: backround-color 0.3 ease-in-out;
+    padding: 0 2.5px 0 2.5px;
+    box-sizing: border-box;
+    transition: backround-color 0.2s, color 0.2s ease-in-out;
 }
 
 #menu {
@@ -57,8 +60,8 @@
     align-items: stretch;
 
     width: inherit;
-    padding: 2px 5px 5px 5px;
-    background-color: #2980b9;
+    background-color: #34495e;
+    /* border: 2px solid #34495e; */
     border-radius: 0 0 5px 5px;
     box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2), -4px 4px 5px rgba(0, 0, 0, 0.2);
     /* box-sizing: border-box; */
@@ -72,20 +75,22 @@
     text-align: center;
     font-size: 16px;
     line-height: 24px;
-    padding: 5px 0;
-    margin-bottom: 5px;
-    border-radius: 4px;
     width: inherit;
-    transition: background-color 0.1s ease-in-out;
+    padding: 5px 0;
+    box-sizing: border-box;
+    transition: background-color 0.2s, color 0.2s ease-in-out;
 }
 
-#menu div:last-child {
+#menu a:last-child div {
     margin: 0;
+    border-radius: 0 0 5px 5px;
 }
 
 #username:hover,
-#menu div:hover {
-    background-color: #3498db;
+#menu div:hover,
+#menu:hover + #username {
+    color: #34495e;
+    background-color: white;
 }
 
 #username:hover + #menu,

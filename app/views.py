@@ -23,7 +23,7 @@ def load_user(user_id):
 
 
 @app.route('/')
-@app.route('/main/')
+# @app.route('/main/')
 def main():
     return render_template('main.html', options=Category.get_list())
 

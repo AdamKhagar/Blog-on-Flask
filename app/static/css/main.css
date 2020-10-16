@@ -30,18 +30,18 @@ main {
 
 .add-post {
     width: 100%;
-    margin: 40px 0 20px 0;
+    margin: 60px 0 20px 0;
 }
 .add-post div{
     /* margin: 30px; */
     width: calc(100% - 4px);
     height: 50px;
-    border: 2px solid #2980b9;
+    border: 2px solid #34495e;
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2980b9;
+    background-color: #34495e;
     color: white;
     transition: background-color 0.3s ease-in-out;
     
@@ -55,63 +55,117 @@ main {
 
 .add-post div:hover {
     /* color: #ecf0f1; */
-    background-color: #3498db;
-    border-color: #3498db;
+    background-color: #2c3e50;
+    border-color: #2c3e50;
 }
 
 form {
     display: flex;
     width: 100%;
-    justify-content: center;   
+    justify-content: space-between;   
     border-radius: 5px;
     margin-top: 20px;
+    /* background-color: #34495e; */
 }
 
-select, input {
-    padding: 5px 10px;
-    border: none;
-    outline: none;
-    margin: none;
+#category-select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    border: 2px solid #34495e;
+    border-radius: 5px;
+    width: 150px;
+    margin-right: 20px;
+    background-color: white;
     box-sizing: border-box;
-    height: 30px;
-    border: #2980b9 2px solid;
 }
 
-select {
-    border-radius: 5px 0 0 5px;
-    outline: none;
-    border-right: none;
-    background: transparent;
-    /* border-right:  #2980b9 2px solid; */
+#category-select .checked-field {
     text-align: center;
-    -webkit-user-select: none;
-    -moz-user-select: -moz-none;
-    -ms-user-select: none;
-    user-select: none;
-
-    -webkit-appearance: none;
-    -moz-appearance: radio-container;
-    appearance: none;
+    width: inherit;
+    font-size: 16px;
+    line-height: 24px;
 }
 
+#category-select .options {
+    width: inherit;
+    position: absolute;
+    top: calc(40px + 40px + 54px + 20px + 20px + 40px - 1px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: white;
+    border: 2px solid #34495e;
+    border-radius: 5px;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.2), -4px 4px 5px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    transform-origin: 0 0;
+    transform: scaleY(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#category-select .checked-field:hover + .options, 
+#category-select .options:hover {
+    transform: scaleY(1);
+}
+
+#category-select .option {
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+    padding: 5px 0;
+    font-size: 15px;
+    width: 100%;
+    height: 30px;
+    background-color: white;
+    transition: background-color 0.2s, color 0.2s ease-in-out;
+}
+
+#category-select .option:first-child {
+    border-radius: 2.5px 2.5px 0 0 ;
+}
+
+#category-select .option:last-child {
+    border-radius: 0 0 2.5px 2.5px;
+}
+
+#category-select .option:hover {
+    color: white;
+    background-color: #34495e;
+}
+
+#category-select .option label {
+   width: inherit;
+   height: inherit;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+input[type="radio"] {
+    display: none;
+}
 
 input {
-    padding-left: 0 30px;
-    /* outline: #2980b9 solid 2px; */
-    border-radius: 0 5px 5px 0;
+    border: 2px solid #34495e;
+    border-radius: 5px;
+    padding: 0 20px;
     flex-grow: 1;
+    font-size: 15px;
 }
 
 .posts {
     display: flex;
     flex-direction: column;
-    margin: 20px 30px;
+    margin: 10px 0;
     width: 100%;
 }
 
 .post {
     margin-top: 20px;
-    border: #2980b9 solid 2px;
+    border: #34495e solid 2px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -119,13 +173,22 @@ input {
 }
 
 .post .title {
-    font-size: 30px;
-    margin-bottom: 10px;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 54px;
+
+    /* margin-bottom: 10px; */
 }
 
+.post .author {
+    font-family: 'Roboto Mono';
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+}
 .post .date {
-    font-size: 12px;
-    margin-bottom: 20px;
+    font-size: 10px;
+    line-height: 15px;
 }
 
 .post .content {

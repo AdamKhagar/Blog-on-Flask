@@ -20,9 +20,9 @@ function pasteUsername () {
 pasteUsername()
 
 logo.addEventListener('mouseover', function() {
-    headerBox.style.backgroundColor = '#3498db'
+    headerBox.style.backgroundColor = '#2c3e50'
 })
 
 logo.addEventListener('mouseout', function() {
-    headerBox.style.backgroundColor = '#2980b9';
+    headerBox.style.backgroundColor = '#34495e';
 })

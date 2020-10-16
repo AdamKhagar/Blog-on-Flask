@@ -16,13 +16,22 @@
     <div class="main">
         <div class="add-post"><a href="{{ url_for('new_post') }}"><div>Add Post</div></a></div>
         <form id="post-search">
-            <select name="category" id="category">
-                <option value="all">All categories</option>
-                {% for option in options %}
-                <option value="{{ option[0] }}">{{ option[1] }}</option>
-                {% endfor %}
-            </select>
-            <input type="text" name="search" id="search" placeholder="#tag or name ...">
+            <div id="category-select">
+                <div class="checked-field">All categories</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="all" class="opt" name="opt" checked>
+                        <label for="all"><div>All categories</div></label>
+                    </div>
+                    {% for option in options %}
+                    <div class="option">
+                        <input type="radio" id="{{ option[0] }}" class="opt" name="opt">
+                        <label for="{{ option[0] }}"><div>{{ option[1] }}</div></label>
+                    </div>
+                    {% endfor %}
+                </div>   
+            </div>
+            <input type="text" name="search" id="search" placeholder="#tag or name ..." autocomplete="off">
         </form>
         <div class="posts">
             <template id="sorry-temlpate">
@@ -33,6 +42,7 @@
             <template id="post-template">
                 <div class="post">
                     <div class="title"></div>
+                    <div class="author"></div>
                     <div class="date"></div>
                     <div class="content"></div>
                 </div>
@@ -41,6 +51,6 @@
     </div>
     </main>
     <footer></footer>
-    <script src="../static/js/getPost.js"></script>
+    <script src="../static/js/main.js"></script>
 </body>
 </html>
