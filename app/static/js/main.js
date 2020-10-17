@@ -7,23 +7,37 @@ var postTemplate = document.querySelector('#post-template').content;
 var form = document.querySelector('#post-search');
 
 function addPosts(posts) {
-    for (let i = 0; i < posts.length; i++) {
-        let data = posts[i];
+    if (posts.length == 0) {
         let postBox = postTemplate.cloneNode(true);
         let post = postBox.querySelector('.post');
-        let title = postBox.querySelector('.title');
-        let date = postBox.querySelector('.date');
         let content = postBox.querySelector('.content');
-        let author = postBox.querySelector('.author');
 
-        post.setAttribute('post_id', data.id);
-        post.setAttribute('category_id', data.category_id);
-        title.textContent = data.title;
-        date.textContent = data.pub_date;
-        content.textContent = data.content;
-        author.textContent = '@' + data.author;
+        content.textContent = "Nothing found at your request";
+        postsBox.insertBefore(post, postsBox.lastChild)
+        post.classList.add("not-found");
+    } else {
+        for (let i = 0; i < posts.length; i++) {
+            let data = posts[i];
+            let postBox = postTemplate.cloneNode(true);
+            let post = postBox.querySelector('.post');
+            let title = postBox.querySelector('.title');
+            let date = postBox.querySelector('.date');
+            let content = postBox.querySelector('.content');
+            let author = postBox.querySelector('.author');
+            let authorLink = postBox.querySelector("a.author-link");
 
-        postsBox.insertBefore(post, postsBox.lastChild);
+            post.setAttribute('post_id', data.id);
+            post.setAttribute('category_id', data.category_id);
+            title.textContent = data.title;
+            date.textContent = data.pub_date;
+            content.textContent = data.content;
+            author.textContent = '@' + data.author;
+
+            let authorLinkURL = '/author_page/' + data.author;
+            authorLink.setAttribute('href', authorLinkURL)
+
+            postsBox.insertBefore(post, postsBox.lastChild);
+        }
     }
 }
 

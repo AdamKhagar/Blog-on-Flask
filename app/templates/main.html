@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../static/css/font.css">
     <link rel="stylesheet" href="../static/css/main.css">
     <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
-    <title>aison</title>
+    <title>Posts</title>
 </head>
 <body>
     <header>
@@ -33,24 +33,24 @@
             </div>
             <input type="text" name="search" id="search" placeholder="#tag or name ..." autocomplete="off">
         </form>
-        <div class="posts">
-            <template id="sorry-temlpate">
-                <div class="post">
-                    ...Nothing was found at your request
-                </div>
-            </template>      
+        <div class="posts">    
             <template id="post-template">
                 <div class="post">
                     <div class="title"></div>
-                    <div class="author"></div>
+                    <a class="author-link" href=""><div class="author"></div></a>
                     <div class="date"></div>
                     <div class="content"></div>
+                </div>
+            </template>
+            <template id="not-found-template">
+                <div class="post not-found">
+
                 </div>
             </template>
         </div>
     </div>
     </main>
-    <footer></footer>
+    <footer>{% include "footer.html" %}</footer>
     <script src="../static/js/main.js"></script>
 </body>
 </html>

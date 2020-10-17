@@ -138,3 +138,8 @@ def get_my_page():
 @login_required
 def get_my_posts():
     pass
+
+@app.route('/bug_report')
+@login_required
+def bug_report(): 
+    pass
