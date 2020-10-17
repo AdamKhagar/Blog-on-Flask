@@ -34,18 +34,24 @@
             <input type="text" name="search" id="search" placeholder="#tag or name ..." autocomplete="off">
         </form>
         <div class="posts">    
-            <template id="post-template">
-                <div class="post">
+            <template>
+                <div class="post ok">
                     <div class="title"></div>
                     <a class="author-link" href=""><div class="author"></div></a>
                     <div class="date"></div>
+                    <div class="title-img"></div>
                     <div class="content"></div>
+                    <div class="buttons">
+                        <div class="left">
+                            <button class="read-btn btn">Read all</button>
+                        </div>
+                        <div class="right">
+                            <button class="save-btn btn">Save</button>
+                            <button class="get-link-btn btn">Link</button>
+                        </div>
+                    </div>   
                 </div>
-            </template>
-            <template id="not-found-template">
-                <div class="post not-found">
-
-                </div>
+                <div class="post not-found"></div>
             </template>
         </div>
     </div>

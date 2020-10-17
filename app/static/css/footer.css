@@ -41,7 +41,8 @@
 }
 
 .footer a {
-    color: #f1c40f
+    color: #f1c40f;
+    text-decoration: none;
 }
 
 .footer .col {

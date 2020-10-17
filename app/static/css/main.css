@@ -33,7 +33,7 @@ main {
     margin: 60px 0 20px 0;
 }
 .add-post div{
-    margin: 10px 0 20px 0;
+    margin: 10px 0 10px 0;
     width: calc(100% - 4px);
     height: 50px;
     border: 2px solid #34495e;
@@ -91,7 +91,7 @@ form {
 #category-select .options {
     width: inherit;
     position: absolute;
-    top: calc(40px + 40px + 54px + 20px + 20px + 40px + 10px);
+    top: calc(40px + 40px + 50px + 20px + 20px + 40px + 3px);
 
     display: flex;
     flex-direction: column;
@@ -215,7 +215,37 @@ input {
     line-height: 24px;
     word-wrap: break-word;
     white-space: pre-wrap;
+    max-height: calc(6 * 24px);
+    width: inherit;
+    overflow: hidden;
+    text-overflow: clip;
+    margin-bottom: 20px;
+}
+.post .buttons {
+    display: flex;
+    align-self: stretch;
+    justify-content: space-between;
 }
 
+.post .btn {
+    border: none;
+    appearance: none;
+    outline: none;
 
+    background: #34495e;
+    line-height: 24px;
+    font-size: 15px;
+    color: white;
+    border-radius: 3px;
+    padding: 3px 20px;
+    margin-right: 5px;
 
+    transition: background-color 0.3s ease-in-out;
+}
+
+.post div .btn:last-child {
+    margin: 0;
+}
+.post .btn:hover {
+    background: #2c3e50;
+}

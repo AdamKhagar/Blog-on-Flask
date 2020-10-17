@@ -3,28 +3,25 @@
 
 
 var postsBox = document.querySelector('div.posts');
-var postTemplate = document.querySelector('#post-template').content;
+var templates = document.querySelector('template').content;
 var form = document.querySelector('#post-search');
 
 function addPosts(posts) {
     if (posts.length == 0) {
-        let postBox = postTemplate.cloneNode(true);
-        let post = postBox.querySelector('.post');
-        let content = postBox.querySelector('.content');
+        let post = templates.querySelector(".post.not-found");
 
-        content.textContent = "Nothing found at your request";
+        post.textContent = "Nothing found at your request";
         postsBox.insertBefore(post, postsBox.lastChild)
         post.classList.add("not-found");
     } else {
         for (let i = 0; i < posts.length; i++) {
             let data = posts[i];
-            let postBox = postTemplate.cloneNode(true);
-            let post = postBox.querySelector('.post');
-            let title = postBox.querySelector('.title');
-            let date = postBox.querySelector('.date');
-            let content = postBox.querySelector('.content');
-            let author = postBox.querySelector('.author');
-            let authorLink = postBox.querySelector("a.author-link");
+            let post = templates.querySelector('.post.ok').cloneNode(true);
+            let title = post.querySelector('.title');
+            let date = post.querySelector('.date');
+            let content = post.querySelector('.content');
+            let author = post.querySelector('.author');
+            let authorLink = post.querySelector("a.author-link");
 
             post.setAttribute('post_id', data.id);
             post.setAttribute('category_id', data.category_id);
