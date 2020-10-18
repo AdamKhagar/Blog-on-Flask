@@ -31,11 +31,12 @@ a {
     font-size: 22px;
     margin-bottom: 20px;
     width: 30px;
-    color: #34495e 
+    color: #34495e;
+    transition: color 0.3s ease-in-out;
 }
 
 .logo:hover {
-    color: #2c3e50
+    color: #3498db;
 }
 
 .login, 
@@ -88,6 +89,7 @@ label {
     height: 24px;
     color: #2c3e50;
     font-weight: 400;
+    align-self: flex-start;
 }
 
 input[type="text"], 
@@ -104,16 +106,21 @@ input[type="password"] {
     padding: 20px 10px;
 }
 
+input {
+    transition: background-color 0.3s, border-color 0.3s ease-in-out;
+}
+
 input:hover,
 input:active, 
 input:focus {
-    border-color: #2c3e50
+    border-color: #3498db;
 }
 
 .loginpage .field:nth-child(4), 
 .registerpage .field:nth-child(8) {
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     margin: 10px 0 5px 0;
     height: 26px;
 }
@@ -129,8 +136,9 @@ input:focus {
     outline: none;
 }
 
-#remember:hover {
-    border-color: #2c3e50;
+#remember:hover, 
+#remember:hover:checked {
+    border-color: #3498db;
 }
 
 #remember:checked {
@@ -153,13 +161,13 @@ input[type="submit"] {
     font-size: 18px;
     font-weight: 500;
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 input[type="submit"]:hover,
 input[type="submit"]:active {
-    background-color: #2c3e50;
-    border-color: #2c3e50;
+    background-color: #3498db;
+    border-color: #3498db;
 }
 
 .licence {
@@ -168,8 +176,14 @@ input[type="submit"]:active {
     line-height: 21px;
 }
 
-a {
+.licence a {
     color: #2c3e50;
+    text-decoration: underline;
+    transition: color 0.3s ease-in-out;
+}
+
+.licence a:hover {
+    color: #3498db;
 }
 
 .redirect {
@@ -183,9 +197,10 @@ a {
     font-weight: 500;
     border: 2px solid #34495e;
     border-radius: 5px;
+    transition: color 0.3s, border-color 0.3s ease-in-out;
 }
 
 .redirect:hover {
-    border-color: #2c3e50;
-    color: #34495e
+    border-color: #3498db;
+    color: #3498db;
 }

@@ -13,7 +13,11 @@ function pasteUsername () {
 
     request.onload = function() {
         username.textContent = '@' + request.response.username;
-        headerMenu.style.width = username.textContent.length * 10 + 'px';
+        let len = username.textContent.length * 10;
+        if (len < 120) {
+            len = 120;
+        }
+        headerMenu.style.width = len + 'px';
     }
 }
 

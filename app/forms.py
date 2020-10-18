@@ -9,29 +9,41 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember me', render_kw={'label': 'Remember Me'})
-    submit = SubmitField('', render_kw={'value': 'Log In'})
+#     submit = SubmitField('', render_kw={'value': 'Log In'})
 
 
 class RegisterForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), length(max=20)])
     lastname = StringField('Lastname', validators=[length(max=20)])
-    username = StringField('Username', validators=[DataRequired(), length(min=10, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()], render_kw={'type': 'email'})
-    password = PasswordField('Password', validators=[
-        DataRequired(),
-        length(min=8, max=20),
-        EqualTo('confirm', message='Passwords must be the same')
-    ])
+    username = StringField('Username', validators=[DataRequired(), 
+            length(min=4, max=20)]
+    )
+    email = StringField('Email', validators=[DataRequired(), Email()],
+            render_kw={'type': 'email'}
+    )
+    password = PasswordField('Password', validators=[DataRequired(),
+            length(min=8, max=20), 
+            EqualTo('confirm', message='Passwords must be the same')]
+    )
     confirm = PasswordField('Password again')
     remember = BooleanField('Remember me')
-    submit = SubmitField('', render_kw={'value': 'Sign Up'})
+#     submit = SubmitField('', render_kw={'value': 'Sign Up'})
 
 
 class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired(), length(max=255)])
-    tags = StringField('Tags')
-    category = SelectField('Category', validators=[DataRequired()],
-        choices=Category.get_list()
+    title = StringField('Title', validators=[DataRequired(), length(max=255)],
+            render_kw={'autocomplete':'off'}
     )
-    text = TextAreaField('Post text', validators=[DataRequired()], render_kw={'resize': 'none', 'wrap': 'hard'})
+    tags = StringField('Tags', render_kw={'autocomplete': 'off'})
+    category = SelectField('Category', validators=[DataRequired()],
+            choices=Category.get_list()
+    )
+    preview_text = TextAreaField('Preview text', validators=[DataRequired()],
+            render_kw={'resize': 'none', 'wrap': 'hard', 'autocomplete': 'off',
+                    'maxlength': '1000', 'class': 'prev'}
+    )
+    text = TextAreaField('Post text', validators=[DataRequired()],
+            render_kw={'resize': 'none', 'wrap': 'hard', 'autocomplete': 'off',
+                    'class': 'content'}
+    )
     submit = SubmitField('', render_kw={'value': 'Post'})

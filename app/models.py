@@ -14,17 +14,15 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(), nullable=False)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow())
     posts = db.relationship('Post', backref='author')
+    is_admin = db.Column(db.Boolean(), default=False)
 
     def __repr__(self):
-        '''return '<{}:{}>'.format(self.id, self.username)'''
         return '<{}:{}>'.format(self.id, self.username)
 
     def set_password(self, password):
-        '''generate password hash and set'''
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        '''check password'''
         return check_password_hash(self.password_hash, password)
 
     def get(self):
@@ -46,7 +44,6 @@ class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
-    slug = db.Column(db.String(50), nullable=False, unique=True)
     posts = db.relationship('Post', backref='category')
 
     def __repr__(self):
@@ -57,8 +54,7 @@ class Category(db.Model):
         return db.session.query(Category.id, Category.name).all()
 
 
-post_tags = db.Table(
-    'post_tags', 
+post_tags = db.Table('post_tags', 
     db.Column('post_id', db.Integer(), db.ForeignKey('posts.id')), 
     db.Column('tag_id', db.Integer(), db.ForeignKey('tags.id')),
     extend_existing=True
@@ -74,7 +70,6 @@ class Tag(db.Model):
 
     @staticmethod
     def new_tags(tags: list):
-        '''add tag into table tags if not exist'''
         old_tags_not_filter = db.session.query(Tag.name).all()
         old_tags = []
 
@@ -93,7 +88,8 @@ class Tag(db.Model):
     def get_tags(tags: list):
         tags_id_list = []
         for tag in tags:
-            tags_id_list.append(db.session.query(Tag).filter(Tag.name == tag).first())
+            tags_id_list.append(
+                    db.session.query(Tag).filter(Tag.name == tag).first())
 
         return tags_id_list
 
@@ -103,22 +99,43 @@ class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(255), nullable=False)
+    images = db.relationship('Image', backref='posts')
     publication_date = db.Column(db.DateTime(), default=datetime.utcnow())
+    prev_text = db.Column(db.String(), nullable=False)
     content = db.Column(db.String(), nullable=False)
     category_id = db.Column(db.Integer(), db.ForeignKey('categories.id'))
     author_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
+    views = db.Column(db.Integer(), default=0)
+    likes = db.Column(db.Integer(), default=0)
+    dislikes = db.Column(db.Integer(), default=0)
 
-    def get(self):
-        return {
+    def get(self, is_prev:bool):
+        res = {
             'id': self.id, 
             'title': self.title,
             'category_id': self.category_id,
             'pub_date': self.publication_date.strftime("%m/%d/%Y, %H:%M:%S"),
-            'content': self.content, 
             'author': db.session.query(User.username).filter(
-                User.id == self.author_id).first()[0]
+                User.id == self.author_id).first()[0],
+            'views': self.views,
+            'likes': self.likes, 
+            'dislikes': self.dislikes,
         }
+        if is_prev:
+            res['content'] = self.prev_text
+        else:
+            res['content'] = self.content
 
-        
+        return res
+
+
+class Image(db.Model):
+    __table_args__ = {'extend_existing': True}
+    __tablename__ = 'images'
+    id = db.Column(db.Integer(), primary_key=True)
+    sequence_num = db.Column(db.Integer(), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    post = db.Column(db.Integer(), db.ForeignKey('posts.id'))
+
 # db.metadata.clear()
 db.create_all()

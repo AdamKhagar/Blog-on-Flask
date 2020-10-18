@@ -20,6 +20,9 @@
                 <a href="{{ url_for('get_my_page') }}"><div class="btn">My page</div></a>
                 <a href="{{ url_for('get_my_posts') }}"><div class="btn">My posts</div></a>
                 <a href="{{ url_for('logout') }}"><div class="btn">Sign Out</div></a>
+                {% if is_admin() %}
+                <a href="{{ url_for('admin') }}"><div class="btn">Admin page</div></a>
+                {% endif %}
             </div>
         </div>
         <script src="../static/js/header.js"></script>

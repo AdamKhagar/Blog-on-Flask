@@ -12,6 +12,7 @@ from sqlalchemy.exc import IntegrityError
 from app import app, db
 from .models import User, Post, Category, Tag
 from .forms import LoginForm, RegisterForm, PostForm
+from .utils import admin_required
 
 
 login_manager = LoginManager(app)
@@ -143,3 +144,13 @@ def get_my_posts():
 @login_required
 def bug_report(): 
     pass
+
+@app.route('/admin')
+@login_required
+@admin_required
+def admin():
+    return '<h1>admin page</h1>'
+
+@app.route('/favicon.ico')
+def favicon():
+    return redirect('/static/favicon.ico')

@@ -43,9 +43,7 @@
                 <label for="remember" class="text">Remember me</label>
                 <input type="checkbox" name="remember" id="remember" class="remember">
             </div>
-            <div class="field">
-                <input type="submit" value="Log In">
-            </div> -->
+             -->
             {{ form.csrf_token() }}
             {% for field in form if field.name != "csrf_token" %}
             <div class='field'>
@@ -56,6 +54,9 @@
                     {% endfor %}  
             </div>
             {% endfor %}
+            <div class="field">
+                <input type="submit" value="Sign up">
+            </div>
         </form>
         <!-- <div class="line"></div> -->
         <div class="licence">When you click the Sign Up button you automatically agree to the terms of the <a href="{{ url_for('licence') }}">licence agreement</a>.</div>

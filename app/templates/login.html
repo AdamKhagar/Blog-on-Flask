@@ -28,9 +28,7 @@
                 <label for="remember" class="text">Remember me</label>
                 <input type="checkbox" name="remember" id="remember" class="remember">
             </div>
-            <div class="field">
-                <input type="submit" value="Log In">
-            </div> -->
+            -->
             {{ form.csrf_token() }}
             {% for field in form if field.name != "csrf_token" %}
             <div class="field">
@@ -41,6 +39,9 @@
                     {% endfor %}  
             </div>
             {% endfor %}
+            <div class="field">
+                <input type="submit" value="Log In">
+            </div> 
         </form>
         <!-- <div class="line"></div> -->
         <a href="{{ url_for('register') }}"><div class="redirect">Sign Up</div></a>
