@@ -11,14 +11,6 @@ main {
     min-height: calc(100vh - 270px);
 }
 
-.hidden {
-    display: none !important; 
-}
-
-*, :hover, :active {
-    outline: none;
-}
-
 .main {
     display: flex;
     flex-direction: column;
@@ -43,7 +35,7 @@ main {
     align-items: center;
     background-color: #34495e;
     color: white;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s, border-color 0.3s ease-in-out;
     
 }
 
@@ -54,9 +46,8 @@ main {
 }
 
 .add-post div:hover {
-    /* color: #ecf0f1; */
-    background-color: #2c3e50;
-    border-color: #2c3e50;
+    background-color: #3498db;
+    border-color: #3498db;
 }
 
 form {
@@ -65,7 +56,6 @@ form {
     justify-content: space-between;   
     border-radius: 5px;
     margin-top: 20px;
-    /* background-color: #34495e; */
 }
 
 #category-select {
@@ -209,7 +199,7 @@ input {
     line-height: 15px;
     margin-bottom: 10px;
 }
-
+    
 .post .content {
     font-size: 16px;
     line-height: 24px;
@@ -248,4 +238,54 @@ input {
 }
 .post .btn:hover {
     background: #2c3e50;
+}
+
+#flash-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    /* text-align: center; */
+    background-color: #e74c3c;
+    color: white;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.flash-box {
+    height: inherit;
+    width: 50%;
+    min-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flash-box button {
+    border: none;
+    appearance: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: white;
+    color: #e74c3c;
+    font-size: 14px;
+    font-weight: 600;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.flash-box button:focus {
+    border: none;
+    appearance: none;
+    outline: none;
+}
+
+.flash-box button:hover{
+    background-color: #ecf0f1;
 }

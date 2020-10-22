@@ -26,7 +26,7 @@ def load_user(user_id):
 @app.route('/')
 # @app.route('/main/')
 def main():
-    return render_template('main.html', options=Category.get_list())
+    return render_template('main.html', options=Category.get_dict_list())
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -92,6 +92,7 @@ def new_post():
         post = Post()
         post.title = form.title.data
         post.category_id = form.category.data
+        post.prev_text = form.preview_text.data
         post.content = form.text.data
         post.author_id = current_user.get_id()
 
@@ -115,7 +116,12 @@ def get_posts(category_id):
     else:
         posts = db.session.query(Post).all()
     
-    return {'posts': [post.get() for post in posts]}
+    return jsonify({'posts': [post.get(True) for post in posts]})
+
+
+@app.route('/get_categories')
+def get_categories():
+    return jsonify({'categories': Category.get_dict_list()})
 
 
 @app.login_manager.unauthorized_handler
@@ -149,7 +155,7 @@ def bug_report():
 @login_required
 @admin_required
 def admin():
-    return '<h1>admin page</h1>'
+    return render_template('admin.html')
 
 @app.route('/favicon.ico')
 def favicon():

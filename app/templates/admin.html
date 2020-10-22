@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/admin.css">
+    <title>Admin page</title>
+</head>
+<body>
+    <header>{% include "header.html" %}</header>
+    <main>
+    <div class="main">
+        <div class="btn-panel">
+            <button class="btn after-btn-one-input" id="new-category-btn" data-input-id="new-category-text" data-input-label="New category name" data-submit-value="Create">New category</button>
+            <button class="btn after-btn-one-input" id="new-admin-btn" inputId="new-admin-text" data-input-label="New admin username" data-submit-value="Add">Add admin</button>
+            <button class="btn after-btn-one-input" id="del-post-btn" inputId="del-post-text" data-input-label="Link to post to delete" data-submit-value="Delete">Delete post</button>
+            <button class="btn after-btn-one-input" id="user-lockdown-btn" inputId="user-lockdown-text" data-input-label="Which user name you want to lock" data-submit-value="lockdown">User lockdown</button>
+            <button class="btn" id="advertise-btn" inputId="advertise-text" data-submit-value="Advertise">make an announcement</button>
+        </div>
+        <form class="hidden">
+            <button class="btn " id="come-back">Come back</button>
+            <div class="form-box">
+                <div class="title"></div>
+                <div class="input-box"></div>
+            <input type="submit">
+            </div>  
+        </form>
+    </div>
+    <script src="../static/js/admin.js"></script>
+    </main>
+    <footer>{% include "footer.html" %}</footer>
+</body>
+</html>

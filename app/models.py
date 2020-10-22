@@ -52,6 +52,11 @@ class Category(db.Model):
     @staticmethod
     def get_list():
         return db.session.query(Category.id, Category.name).all()
+        
+    @staticmethod
+    def get_dict_list():
+        db_responce = db.session.query(Category.id, Category.name).all()
+        return [{'key': key, 'value': value} for key, value in db_responce]
 
 
 post_tags = db.Table('post_tags', 

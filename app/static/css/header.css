@@ -1,4 +1,5 @@
 .header-box {
+    top: 0;
     position: fixed;
     width: 100%;
     background-color: #34495e;
@@ -82,7 +83,7 @@
     text-align: center;
     font-size: 16px;
     line-height: 24px;
-    width: inherit;
+    width: 100%;
     padding: 5px 0;
     box-sizing: border-box;
     transition: background-color 0.2s, color 0.2s ease-in-out;
