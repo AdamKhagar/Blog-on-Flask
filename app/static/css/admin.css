@@ -16,7 +16,7 @@ main {
     display: none !important;
 }
 
-.main :hover, :focus {
+button:focus, input[type="submit"]:focus{
     /* border: none; */
     appearance: none;
     outline: none;
@@ -104,7 +104,7 @@ form, .form-box, .input-box {
     margin-bottom: 5px;
     
 }
-.form-box .input-box input {
+.form-box .input-box input[type="text"] {
     border: 2px solid #34495e;
     border-radius: 5px;
     padding: 10px;
@@ -116,8 +116,8 @@ form, .form-box, .input-box {
     transition: border-color 0.3s ease-in-out;
 }
 
-.form-box .input-box input:hover,
-.form-box .input-box input:focus {
+.form-box .input-box input[type="text"]:hover,
+.form-box .input-box input[type="text"]:focus {
     border-color: #3498db;
 }
 .form-box input[type="submit"]{
@@ -161,11 +161,12 @@ form, .form-box, .input-box {
     height: 20px;
 }
 
-#del-category-select {
+.input-box #del-category-select {
     display: flex;
     flex-direction: column;
     border: 2px solid #34495e;
     border-radius: 5px;
+    margin-bottom: 20px;
 }
 
 #del-category-select .option {
@@ -192,4 +193,15 @@ form, .form-box, .input-box {
 #del-category-select .option input:checked + label {
     color: white;
     background-color: #34495e;
+}
+
+#question-box {
+    display: flex;
+    flex-direction: column;
+}
+
+#question-box .question {
+    font-size: 18px;
+    line-height: 27px;
+    font-weight: 500;
 }

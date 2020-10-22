@@ -23,22 +23,22 @@
     text-decoration: none;
 }
 
-.logo a {
+.header .logo a {
     font-size: 20px;
     font-family: 'Montserrat';
     text-decoration: none;
     margin: 0 5px;
 }
 
-.profile {
+.header .profile {
     display: flex;
 }
 
-.profile .login {
+.header .profile .login {
     margin-right: 20px;
 }
 
-#header-menu {
+.header #header-menu {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -47,7 +47,7 @@
     /* min-width: 200px; */
 }
 
-#username {
+.header #username {
     font-family: 'Roboto Mono';
     font-size: 16px;
     line-height: 39px;
@@ -59,7 +59,7 @@
     transition: backround-color 0.2s, color 0.2s ease-in-out;
 }
 
-#menu {
+.header #menu {
     position: absolute;
     top: 40px;
 
@@ -79,7 +79,7 @@
     transition: transform 0.2s ease-in-out;
 }
 
-#menu div {
+.header #menu div {
     text-align: center;
     font-size: 16px;
     line-height: 24px;
@@ -89,19 +89,19 @@
     transition: background-color 0.2s, color 0.2s ease-in-out;
 }
 
-#menu a:last-child div {
+.header #menu a:last-child div {
     margin: 0;
     border-radius: 0 0 5px 5px;
 }
 
-#username:hover,
-#menu div:hover,
-#menu:hover + #username {
+.header #username:hover,
+.header #menu div:hover,
+.header #menu:hover + #username {
     color: #34495e;
     background-color: white;
 }
 
-#username:hover + #menu,
-#menu:hover {
+.header #username:hover + #menu,
+.header #menu:hover {
     transform: scaleY(1);
 }
