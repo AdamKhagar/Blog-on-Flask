@@ -39,7 +39,7 @@ function addPosts(posts) {
 }
 
 function getPosts(category = 'all') {
-    var url = 'http://localhost:5000/get_posts/' + category;
+    var url = 'http://localhost:5000/get-posts/' + category;
 
     var request = new XMLHttpRequest();
 

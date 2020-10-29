@@ -19,14 +19,15 @@
             <button class="btn after-btn-one-input" id="user-lockdown-btn" inputId="user-lockdown-text" data-input-label="Which user name you want to lock" data-submit-value="lockdown">User lockdown</button>
             <button class="btn" id="advertise-btn" inputId="advertise-text" data-submit-value="Advertise">make an announcement</button>
         </div>
-        <form class="hidden">
+        <div class="form-box hidden">
             <button class="btn " id="come-back">Come back</button>
-            <div class="form-box">
+            <form class="">    
                 <div class="title"></div>
+                <div class="error hidden"></div>
                 <div class="input-box"></div>
-            <input type="submit">
-            </div>  
-        </form>
+                <input type="submit" id="submit">
+            </form>
+        </div>
     </div>
     <script src="../static/js/admin.js"></script>
     </main>

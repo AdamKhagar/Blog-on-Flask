@@ -1,7 +1,8 @@
 from flask import (
     render_template, request,
     redirect, url_for,
-    flash, jsonify
+    flash, jsonify,
+    Response
 )
 from flask_login import (
     LoginManager, login_required,
@@ -24,7 +25,6 @@ def load_user(user_id):
 
 
 @app.route('/')
-# @app.route('/main/')
 def main():
     return render_template('main.html', options=Category.get_dict_list())
 
@@ -46,7 +46,7 @@ def login():
 
     return render_template('login.html', form=form)
 
-1234567890123456789012345678901234567890123456789012345678901234567890123456789
+
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -84,7 +84,7 @@ def licence():
     return '<h2>Теперь мы будем продавать твои данные</h2>'
 
 
-@app.route('/new_post', methods=['GET', 'POST'])
+@app.route('/new-post', methods=['GET', 'POST'])
 @login_required
 def new_post():
     form = PostForm()
@@ -108,7 +108,7 @@ def new_post():
     return render_template('post.html', form=form)
 
 
-@app.route('/get_posts/<category_id>', methods=['POST', 'GET'])
+@app.route('/get-posts/<category_id>', methods=['POST', 'GET'])
 def get_posts(category_id): 
     if category_id.isdigit(): 
         category_id = int(category_id)
@@ -119,7 +119,7 @@ def get_posts(category_id):
     return jsonify({'posts': [post.get(True) for post in posts]})
 
 
-@app.route('/get_categories')
+@app.route('/get-categories')
 def get_categories():
     return jsonify({'categories': Category.get_dict_list()})
 
@@ -129,24 +129,24 @@ def unauth_handler():
     flash("Authorize please to access this page")
     return redirect(url_for("login"))
 
-@app.route('/current_user_info')
+@app.route('/current-user-info')
 @login_required
 def get_current_user_info():
     user = db.session.query(User).filter(
         User.id == current_user.get_id()).first()
     return jsonify(user.get())
 
-@app.route('/my_page')
+@app.route('/my-page')
 @login_required
 def get_my_page():
     pass
 
-@app.route('/my_posts')
+@app.route('/my-posts')
 @login_required
 def get_my_posts():
     pass
 
-@app.route('/bug_report')
+@app.route('/bug-report')
 @login_required
 def bug_report(): 
     pass
@@ -160,3 +160,47 @@ def admin():
 @app.route('/favicon.ico')
 def favicon():
     return redirect('/static/favicon.ico')
+
+
+
+
+@app.route('/from-admin/del-post', methods=['POST'])
+@app.route('/from-admin/user-lockdown', methods=['POST'])
+@app.route('/from-admin/advertise', methods=['POST'])
+@login_required
+@admin_required
+def some_func():
+    print(request.json)
+    
+    
+
+
+@login_required
+@admin_required
+@app.route('/from-admin/new-category', methods=['POST'])
+def admin_new_category():
+    new_category = Category(name = request.json['data'])
+    db.session.add(new_category)
+    db.session.commit()
+    return Response(status=200)
+    
+
+@login_required
+@admin_required
+@app.route('/from-admin/del-categories', methods=['POST'])
+def admin_del_category():
+    category_id_list = [int(id) for id in request.json['categories']]
+    category_list = []
+
+    for id in category_id_list:
+        db.session.delete(db.session.query(Category).filter(Category.id == id).first())
+    db.session.commit()
+    print(category_list, category_id_list)
+    return Response(status=200)
+
+
+@login_required
+@admin_required
+@app.route('/from-admin/add-admin', methods=['POST'])
+def admin_new_admin():
+    pass

@@ -44,10 +44,8 @@ class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
-    posts = db.relationship('Post', backref='category')
+    posts = db.relationship('Post', backref='category', cascade='all,delete-orphan')
 
-    def __repr__(self):
-        return (self.id, self.name)
 
     @staticmethod
     def get_list():
@@ -132,6 +130,7 @@ class Post(db.Model):
             res['content'] = self.content
 
         return res
+
 
 
 class Image(db.Model):

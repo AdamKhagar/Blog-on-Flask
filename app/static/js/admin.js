@@ -7,17 +7,43 @@ var delPostBtn = buttonPanel.querySelector('#del-post-btn');
 var userLockdownBtn = buttonPanel.querySelector('#user-lockdown-btn');
 var advertiseBtn = buttonPanel.querySelector('#advertise-btn');
 
-var form = document.querySelector('form');
-var closeFormBtn = form.querySelector('#come-back');
+var formBox = document.querySelector('.form-box');
+var closeFormBtn = formBox.querySelector('#come-back');
+var form = formBox.querySelector('form')
 var formTitle = form.querySelector('.title');
 var inputBox = form.querySelector('.input-box');
-var submit = form.querySelector('input[type=submit]')
+var submit = document.getElementById('submit');
+var formError = formBox.querySelector('.error');
 
-closeFormBtn.addEventListener('click', function() {
+urls = {
+    newCategory: "/from-admin/new-category",
+    delCategory: "/from-admin/del-categories", 
+    addAdmin: "/from-admin/add-admin", 
+    delPost: "/from-admin/del-post", 
+    userLockdown: "/from-admin/user-lockdown", 
+    adverise: "/from-admin/advertise",
+    getCategories: "/get-categories"
+}
+
+
+function closeForm() {
     buttonPanel.classList.remove("hidden");
     inputBox.textContent = '';
-    form.classList.add("hidden");
-});
+    formBox.classList.add("hidden");
+    formError.textContent = '';
+    formError.classList.add('hidden');
+    submit.classList.remove('disable');
+    submit.disabled = false;
+}
+
+closeFormBtn.addEventListener('click', closeForm);
+
+function sendPostReq(url, requestData) {
+    let request = new XMLHttpRequest();
+    request.open("POST", url, true);
+    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    request.send(JSON.stringify(requestData));
+}
 
 btnsOneInputText.forEach(function(btn) {
     btn.addEventListener("click", function() {
@@ -26,15 +52,39 @@ btnsOneInputText.forEach(function(btn) {
         let input = document.createElement('input');
 
         form.id = data.inputId;
-        buttonPanel.classList.add("hidden");
+        buttonPanel.classList.add('hidden');
         formTitle.textContent = btn.textContent;
         input.type = 'text';
+        input.required = true;
         label.for = input.id;
         label.textContent = data.inputLabel;
         inputBox.insertBefore(input, inputBox.lastChild);
         inputBox.insertBefore(label, inputBox.lastChild);
         submit.value = data.submitValue;
-        form.classList.remove("hidden");
+        formBox.classList.remove("hidden");
+
+        form.addEventListener('submit', function(evt) {
+            evt.preventDefault();
+            let titleText = formTitle.textContent;
+
+            requestData = {
+                data: input.value
+            };
+            if (input.value != '__none__') {
+                if (titleText == newCategoryBtn.textContent) {
+                    sendPostReq(urls.newCategory, requestData);
+                } else if (titleText == addAdminBtn.textContent) {
+                    sendPostReq(urls.addAdmin, requestData);
+                } else if (titleText == delPostBtn.textContent) {
+                    sendPostReq(urls.delPost, requestData);
+                } else if (titleText == userLockdownBtn.textContent) {
+                    sendPostReq(urls.userLockdown, requestData);
+                }
+            }
+            input.value = '__none__';
+            closeForm();
+              
+        })
     })
 });
 
@@ -59,6 +109,7 @@ function showDeleteCategoryForm(categories) {
         let optionInput = document.createElement('input');
         let optionLabel = document.createElement('label');
         optionInput.type = 'checkbox';
+        optionInput.name = 'category';
         optionInput.classList.add('category-opt');
         optionInput.id = category.key;
         optionInput.classList.add('hidden');
@@ -88,6 +139,8 @@ function showDeleteCategoryForm(categories) {
     question.classList.add('question');
     radioDel.type = 'radio';
     radioSave.type = 'radio';
+    radioSave.name = 'after-del-category';
+    radioDel.name = 'after-del-category';
     radioDel.classList.add('after-del-category');
     radioSave.classList.add('after-del-category');
     radioDel.id = 'del-posts';
@@ -114,20 +167,45 @@ function showDeleteCategoryForm(categories) {
     questionBox.insertBefore(question, questionBox.firstChild);
 
     inputBox.insertBefore(select, inputBox.lastChild);
-   
     inputBox.insertBefore(selectLabel, select);
+
     buttonPanel.classList.add('hidden');
-    form.classList.remove('hidden');
+    formBox.classList.remove('hidden');
+
+    let allCategories = document.querySelectorAll('.category-opt');
+    let checkedCategories = [];
+
+    allCategories.forEach(function(category) {
+        category.addEventListener('change', function() {
+            let index = checkedCategories.indexOf(category.id);
+            if (index == -1) {
+                checkedCategories.push(category.id);
+            } else {
+                checkedCategories.slice(index, index);
+            }
+            if (checkedCategories.length == 0) {
+                formError.textContent = 'Select at least one category you want to delete';
+                formError.classList.remove('hidden');
+                submit.classList.add('disable')
+                submit.disabled = true;
+            } else {
+                formError.textContent = '';
+                formError.classList.add('hidden');
+                submit.classList.remove('disable');
+                submit.disabled = false;
+            }
+        })
+    })
 }
 
 function delCategoryFormSubmit() {
     let allCategories = document.querySelectorAll('.category-opt');
-    let checkedCatereies = [];
+    let checkedCategories = [];
     let afterDeleteVars = document.querySelectorAll('.after-del-category');
-    
+
     allCategories.forEach(function(category) {
         if (category.checked) {
-            checkedCatereies.push(category.id);
+            checkedCategories.push(category.id)
         }
     })
 
@@ -137,24 +215,28 @@ function delCategoryFormSubmit() {
             afterDelete = variant.value;
         }
     })
-
-    requestData = {
-        categories: checkedCatereies,
-        after: afterDelete
-    };
-
-    let postURL = 'from-admin/delete-categories';
-    let postReq = new XMLHttpRequest();
-
-    postReq.open('POST', postURL, true);
-    postReq.send(requestData)
+        
+    if (checkedCategories.length == 0) {
+        formError.textContent = 'Select at least one category you want to delete';
+        formError.classList.remove('hidden');
+        submit.classList.add('disable')
+        submit.disabled = true;
+    } else {
+        requestData = {
+            categories: checkedCategories,
+            after: afterDelete
+        };
+        sendPostReq(urls.delCategory, requestData);
+        buttonPanel.classList.remove('hidden');
+        formBox.classList.add('hidden');
+        inputBox.textContent = '';
+    }
 }
 
 delCategoryBtn.addEventListener("click", function() {
-    let url = 'http://localhost:5000/get_categories';
     let request = new XMLHttpRequest();
 
-    request.open('GET', url, true);
+    request.open('GET', urls.getCategories, true);
     request.responseType = 'json';
     request.send();
     request.onload = function () {

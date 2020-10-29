@@ -25,21 +25,23 @@
                 {% endif %}
             </div>
         </div>
-        <script src="../static/js/header.js"></script>
+        <script src="../static/js/headerMenu.js"></script>
         {% else %}
-        <div class="login">
+        <div class="login sign">
             <a href="{{ url_for('login') }}"><div>
                 Log In
             </div></a>
         </div>
-        <div class="signup">
+        <div class="signup sign">
             <a href="{{ url_for('register') }}"><div>
                 Sign Up
             </div></a>
         </div>
         {% endif %}
     </div>
+    
 </div>
 </div>
+<script src="../static/js/header.js"></script>
 </body>
 </html>
