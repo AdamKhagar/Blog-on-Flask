@@ -39,11 +39,11 @@ class PostForm(FlaskForm):
             choices=Category.get_list()
     )
     preview_text = TextAreaField('Preview text', validators=[DataRequired()],
-            render_kw={'resize': 'none', 'wrap': 'hard', 'autocomplete': 'off',
+            render_kw={'resize': 'none', 'wrap': 'soft', 'autocomplete': 'off',
                     'maxlength': '1000', 'class': 'prev'}
     )
     text = TextAreaField('Post text', validators=[DataRequired()],
-            render_kw={'resize': 'none', 'wrap': 'hard', 'autocomplete': 'off',
+            render_kw={'resize': 'none', 'wrap': 'soft', 'autocomplete': 'off',
                     'class': 'content'}
     )
     submit = SubmitField('', render_kw={'value': 'Post'})
