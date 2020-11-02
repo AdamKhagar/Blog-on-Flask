@@ -1,0 +1,21 @@
+body {
+    font-family: 'Montesserat';
+    color: #34495e;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    min-height: calc(100vh - 270px);
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-width: 600px;
+    align-items: center;
+    margin: 20px 30px;
+}

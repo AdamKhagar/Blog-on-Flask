@@ -11,7 +11,7 @@ from flask_login import (
 )
 from sqlalchemy.exc import IntegrityError
 from app import app, db
-from .models import User, Post, Category, Tag
+from .models import User, Post, Category, Tag, Blacklist
 from .forms import LoginForm, RegisterForm, PostForm
 from .utils import admin_required
 
@@ -161,25 +161,30 @@ def admin():
 def favicon():
     return redirect('/static/favicon.ico')
 
-
-
+@login_required
+@admin_required
+@app.route('/get-statistics')
+def get_statistics():
+    stat = {
+        "users": db.session.query(User).count(), 
+        "posts": db.session.query(Post).count()
+    }
+    return jsonify(stat)
 
 @app.route('/from-admin/del-post', methods=['POST'])
-@app.route('/from-admin/user-lockdown', methods=['POST'])
+
 @app.route('/from-admin/advertise', methods=['POST'])
 @login_required
 @admin_required
 def some_func():
     print(request.json)
     
-    
-
 
 @login_required
 @admin_required
 @app.route('/from-admin/new-category', methods=['POST'])
 def admin_new_category():
-    new_category = Category(name = request.json['data'])
+    new_category = Category(name = request.json['name'])
     db.session.add(new_category)
     db.session.commit()
     return Response(status=200)
@@ -203,4 +208,35 @@ def admin_del_category():
 @admin_required
 @app.route('/from-admin/add-admin', methods=['POST'])
 def admin_new_admin():
-    pass
+    admin_username = request.json['username']
+
+    try:
+        new_admin = db.session.query(User).\
+            filter(User.username == admin_username).first()
+        new_admin.is_admin = True
+        db.session.add(new_admin)
+        db.session.commit()
+        return Response(status=200)
+    except TypeError:
+        return Response(status=404)
+
+
+@login_required
+@admin_required
+@app.route('/from-admin/user-lockdown', methods=['POST'])
+def user_lockdown():
+    username = request.json['username']
+    user = User.get_user_by_username(username)
+    try: 
+        blacklist_item = Blacklist(user_id = user.id, 
+                user = user, 
+                blacklist_period = int(request.json['period'])
+        )
+        db.session.add(blacklist_item)
+        db.session.commit()
+        print(user.id)
+    except Exception:
+        print(request.json['username'], request.json['period'])
+        return Response(status=404)
+    else: 
+        return Response(status=200)

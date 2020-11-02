@@ -15,6 +15,10 @@ var inputBox = form.querySelector('.input-box');
 var submit = document.getElementById('submit');
 var formError = formBox.querySelector('.error');
 
+var statistics = document.querySelector('.statistics');
+var userCount = statistics.querySelector('.user-count');
+var postCount = statistics.querySelector('.post-count');
+
 urls = {
     newCategory: "/from-admin/new-category",
     delCategory: "/from-admin/del-categories", 
@@ -22,12 +26,27 @@ urls = {
     delPost: "/from-admin/del-post", 
     userLockdown: "/from-admin/user-lockdown", 
     adverise: "/from-admin/advertise",
-    getCategories: "/get-categories"
+    getCategories: "/get-categories", 
+    getStatistics: "/get-statistics"
 }
 
+function statisticOnloadPaste() {
+    let request = new XMLHttpRequest();
+    request.open("GET", urls.getStatistics, true);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+        userCount.textContent = request.response.users;
+        postCount.textContent = request.response.posts;
+        
+    }
+}
+
+statisticOnloadPaste();
 
 function closeForm() {
     buttonPanel.classList.remove("hidden");
+    statistics.classList.remove("hidden")
     inputBox.textContent = '';
     formBox.classList.add("hidden");
     formError.textContent = '';
@@ -45,6 +64,7 @@ function sendPostReq(url, requestData) {
     request.send(JSON.stringify(requestData));
 }
 
+// newCategory, deletePost, addAdmin forms generete
 btnsOneInputText.forEach(function(btn) {
     btn.addEventListener("click", function() {
         let data = btn.dataset;
@@ -53,6 +73,7 @@ btnsOneInputText.forEach(function(btn) {
 
         form.id = data.inputId;
         buttonPanel.classList.add('hidden');
+        statistics.classList.add("hidden")
         formTitle.textContent = btn.textContent;
         input.type = 'text';
         input.required = true;
@@ -63,30 +84,47 @@ btnsOneInputText.forEach(function(btn) {
         submit.value = data.submitValue;
         formBox.classList.remove("hidden");
 
+        // newCategory, deletePost, addAdmin forms submit 
         form.addEventListener('submit', function(evt) {
             evt.preventDefault();
             let titleText = formTitle.textContent;
 
-            requestData = {
-                data: input.value
-            };
             if (input.value != '__none__') {
                 if (titleText == newCategoryBtn.textContent) {
-                    sendPostReq(urls.newCategory, requestData);
+                    sendPostReq(urls.newCategory, {name: input.value});
                 } else if (titleText == addAdminBtn.textContent) {
-                    sendPostReq(urls.addAdmin, requestData);
+                    sendPostReq(urls.addAdmin, {username: input.value});
                 } else if (titleText == delPostBtn.textContent) {
-                    sendPostReq(urls.delPost, requestData);
-                } else if (titleText == userLockdownBtn.textContent) {
-                    sendPostReq(urls.userLockdown, requestData);
+                    sendPostReq(urls.delPost, {postLink: input.value});
                 }
             }
             input.value = '__none__';
-            closeForm();
-              
+            closeForm();   
         })
     })
 });
+
+
+// deleteCategy form generate
+
+delCategoryBtn.addEventListener("click", function() {
+    let request = new XMLHttpRequest();
+
+    request.open('GET', urls.getCategories, true);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function () {
+        let categories = request.response.categories
+        
+        showDeleteCategoryForm(categories)
+
+        let delCategoryForm = document.getElementById('del-category-form');
+        delCategoryForm.addEventListener('submit', function(evt) {
+            evt.preventDefault();
+            delCategoryFormSubmit()
+        });
+    }
+})
 
 function showDeleteCategoryForm(categories) {
     let data = delCategoryBtn.dataset;
@@ -103,7 +141,7 @@ function showDeleteCategoryForm(categories) {
     submit.value = data.submitValue;
 
     categories.forEach(function(category) {
-        // console.log(category)
+        
         let field = document.createElement('div');
         field.classList.add('option');
         let optionInput = document.createElement('input');
@@ -170,6 +208,8 @@ function showDeleteCategoryForm(categories) {
     inputBox.insertBefore(selectLabel, select);
 
     buttonPanel.classList.add('hidden');
+    statistics.classList.add("hidden")
+
     formBox.classList.remove('hidden');
 
     let allCategories = document.querySelectorAll('.category-opt');
@@ -198,6 +238,8 @@ function showDeleteCategoryForm(categories) {
     })
 }
 
+
+// deleteCategory submit
 function delCategoryFormSubmit() {
     let allCategories = document.querySelectorAll('.category-opt');
     let checkedCategories = [];
@@ -228,27 +270,101 @@ function delCategoryFormSubmit() {
         };
         sendPostReq(urls.delCategory, requestData);
         buttonPanel.classList.remove('hidden');
+        statistics.classList.remove("hidden")
+
         formBox.classList.add('hidden');
         inputBox.textContent = '';
     }
 }
 
-delCategoryBtn.addEventListener("click", function() {
-    let request = new XMLHttpRequest();
 
-    request.open('GET', urls.getCategories, true);
-    request.responseType = 'json';
-    request.send();
-    request.onload = function () {
-        let categories = request.response.categories
-        
-        showDeleteCategoryForm(categories)
+// userLockdown form generate
 
-        let delCategoryForm = document.getElementById('del-category-form');
-        delCategoryForm.addEventListener('submit', function(evt) {
-            evt.preventDefault();
-            delCategoryFormSubmit()
-        });
+userLockdownBtn.addEventListener("click", function() {
+    let data = userLockdownBtn.dataset;
+    let label = document.createElement('label');
+    let input = document.createElement('input');
+    let inputTextField = document.createElement('div');
+    inputTextField.classList.add("input-text-box")
+    let questionBox = document.createElement('div');
+    questionBox.id = 'question-box';
+    let question = document.createElement('div');
+    question.classList.add('question');
+    question.textContent = "How long will the lockdown last?";
+    let optionBox = document.createElement('div');
+    optionBox.classList.add('option-box');
+
+    inputBox.insertBefore(questionBox, inputBox.lastChild);
+    questionBox.insertBefore(optionBox, questionBox.lastChild);
+    questionBox.insertBefore(question, questionBox.lastChild);
+
+    form.id = data.inputId;
+    buttonPanel.classList.add('hidden');
+    statistics.classList.add("hidden")
+    formTitle.textContent = userLockdownBtn.textContent;
+    input.type = 'text';
+    input.required = true;
+    label.for = input.id;
+    label.textContent = data.inputLabel;
+    
+    inputBox.insertBefore(inputTextField, inputBox.lastChild);
+    inputTextField.insertBefore(input, inputTextField.lastChild);
+    inputTextField.insertBefore(label, inputTextField.lastChild);
+    
+    options = {
+        '-1': 'forever',
+        '365': 'year',
+        '183': 'half a year', 
+        '30': 'month', 
+        '1': 'day'  
     }
+
+    Object.keys(options).forEach(function(key, i) {
+        let radioBox = document.createElement("div");
+        let radioLabel = document.createElement("label");
+        let radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "period";
+        radio.classList.add("period");
+        radio.id = key;
+        if (i == 0) {
+            radio.checked = true;
+        }
+        radioLabel.htmlFor = key;
+        radioLabel.textContent = options[key];
+        
+        optionBox.appendChild(radioBox);
+        radioBox.appendChild(radio);
+        radioBox.appendChild(radioLabel);
+        
+    })
+    
+    submit.value = data.submitValue;
+    formBox.classList.remove("hidden");
+    buttonPanel.classList.add("hidden");
+    statistics.classList.add("hidden")
+
+    form.addEventListener("submit", function(evt) {
+        evt.preventDefault();
+        lockdownFormSubmit()
+    })
 })
 
+function lockdownFormSubmit(){
+    let allRadio = document.querySelectorAll("input.period");
+    let checkedRadioValue;
+    let input = formBox.querySelector(".input-text-box input")
+    allRadio.forEach(function(radio) {
+        if (radio.checked) {
+            checkedRadioValue = radio.id;
+        }
+    })
+    let requestData = {
+        period: checkedRadioValue,
+        username: input.value
+    }
+    console.log(requestData)
+    sendPostReq(urls.userLockdown, requestData);
+
+    closeForm();
+}

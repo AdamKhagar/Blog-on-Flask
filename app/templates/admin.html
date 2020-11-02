@@ -11,12 +11,22 @@
     <header>{% include "header.html" %}</header>
     <main>
     <div class="main">
+        <div class="statistics">
+            <div class="users col">
+                <p>Number of users:</p>
+                <p class="user-count num"></p>
+            </div>
+            <div class="posts col">
+                <p>Number of posts:</p>
+                <p class="post-count num"></p>
+            </div>
+        </div>
         <div class="btn-panel">
             <button class="btn after-btn-one-input" id="new-category-btn" data-input-id="new-category-text" data-input-label="New category name" data-submit-value="Create">New category</button>
             <button class="btn" id="del-category-btn" data-input-id="del-category-select" data-input-label="Select the categories you want to delete" data-submit-value="Delete">Delete category</button>
             <button class="btn after-btn-one-input" id="new-admin-btn" inputId="new-admin-text" data-input-label="New admin username" data-submit-value="Add">Add admin</button>
             <button class="btn after-btn-one-input" id="del-post-btn" inputId="del-post-text" data-input-label="Link to post to delete" data-submit-value="Delete">Delete post</button>
-            <button class="btn after-btn-one-input" id="user-lockdown-btn" inputId="user-lockdown-text" data-input-label="Which user name you want to lock" data-submit-value="lockdown">User lockdown</button>
+            <button class="btn" id="user-lockdown-btn" inputId="user-lockdown-text" data-input-label="Which user username you want to lock" data-submit-value="lockdown">User lockdown</button>
             <button class="btn" id="advertise-btn" inputId="advertise-text" data-submit-value="Advertise">make an announcement</button>
         </div>
         <div class="form-box hidden">

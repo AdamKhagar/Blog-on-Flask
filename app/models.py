@@ -25,6 +25,10 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    @staticmethod
+    def get_user_by_username(username: str):
+        return db.session.query(User).filter(User.username == username).first()
+
     def get(self):
         return {
             "id": self.id,
@@ -37,6 +41,15 @@ class User(db.Model, UserMixin):
     def get_posts(self):
         posts = db.session.query(Tag).filter(Tag.author_id == self.id).all()
         return [post.get() for post in posts]
+
+
+class Blacklist(db.Model):
+    __table_args__ = {'extend_existing': True}
+    __tablename__ = 'blacklist'
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), primary_key=True,  nullable=False)
+    user = db.relationship('User', backref=db.backref("in_blacklist", uselist=False))
+    blacklist_date = db.Column(db.DateTime(), default=datetime.utcnow())
+    blacklist_period = db.Column(db.Integer(), nullable=False)
 
 
 class Category(db.Model):

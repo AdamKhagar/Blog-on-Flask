@@ -27,7 +27,7 @@ function addPosts(posts) {
             post.setAttribute('category_id', data.category_id);
             title.textContent = data.title;
             date.textContent = data.pub_date;
-            content.textContent = data.content;
+            content.innerHTML = data.content;
             author.textContent = '@' + data.author;
 
             let authorLinkURL = '/author_page/' + data.author;
@@ -52,7 +52,7 @@ function getPosts(category = 'all') {
         var posts = responce.posts;
         postsBox.innerHTML = '';
         addPosts(posts)
-        console.log(posts)
+        
     }
 
 };

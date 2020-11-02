@@ -19,3 +19,5 @@ def admin_required(func):
             flash("You do not have access to this page")
             return redirect('/')
     return decorated_view
+
+
