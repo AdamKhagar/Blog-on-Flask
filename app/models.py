@@ -125,7 +125,7 @@ class Post(db.Model):
     likes = db.Column(db.Integer(), default=0)
     dislikes = db.Column(db.Integer(), default=0)
 
-    def get(self, is_prev:bool):
+    def get(self): 
         res = {
             'id': self.id, 
             'title': self.title,
@@ -136,14 +136,14 @@ class Post(db.Model):
             'views': self.views,
             'likes': self.likes, 
             'dislikes': self.dislikes,
+            'prev_content': self.prev_text,
+            'content': self.content
         }
-        if is_prev:
-            res['content'] = self.prev_text
-        else:
-            res['content'] = self.content
-
         return res
 
+    @staticmethod
+    def get_by_id(post_id):
+        return db.session.query(Post).filter(Post.id == post_id).first().get()
 
 
 class Image(db.Model):
