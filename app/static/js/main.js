@@ -1,10 +1,17 @@
-
 // get and paste posts into div.poste
 
 
 var postsBox = document.querySelector('div.posts');
 var templates = document.querySelector('template').content;
 var form = document.querySelector('#post-search');
+
+function closeShowPosts(postList, currentPostId) {
+    postList.forEach(function(post) {
+        if (post.getAttribute("post-id") != currentPostId) {
+            post.classList.toggle("hidden")
+        }
+    })
+};
 
 function addPosts(posts) {
     if (posts.length == 0) {
@@ -22,24 +29,52 @@ function addPosts(posts) {
             let content = post.querySelector('.content');
             let author = post.querySelector('.author');
             let authorLink = post.querySelector("a.author-link");
+            let copyLinkBtn = post.querySelector(".copy-link-btn");
+            let link = document.createElement("input");
+            let readAllBtn = post.querySelector(".read-all-btn");
+            
 
-            post.setAttribute('post_id', data.id);
-            post.setAttribute('category_id', data.category_id);
+            // readAllBtn.setAttribute('post-id', data.id);
+            let linkText = 'localhost:5000/post/' + data.id;
+            link.type = "text";
+            link.value = linkText;
+            link.classList.add("non-visible");
+            post.setAttribute('post-id', data.id);
+            post.setAttribute('category-id', data.category_id);
             title.textContent = data.title;
             date.textContent = data.pub_date;
-            content.innerHTML = data.content;
+            content.innerHTML = data.prev_content;
             author.textContent = '@' + data.author;
+            readAllBtn.setAttribute("onclick", "location.href='/post" + data.id + "'")
 
             let authorLinkURL = '/author_page/' + data.author;
             authorLink.setAttribute('href', authorLinkURL)
 
             postsBox.insertBefore(post, postsBox.lastChild);
+            post.appendChild(link)
+            
+            let hoverText = copyLinkBtn.querySelector(".hovertext");
+
+            copyLinkBtn.addEventListener("click", function() {
+                link.select();
+                document.execCommand("copy");
+                window.getSelection().removeAllRanges(); 
+
+                hoverText.classList.add("clicked");
+                hoverText.textContent = "Copied by";
+            })
+
+            copyLinkBtn.addEventListener("mouseout", function() {
+                hoverText.classList.remove("clicked");
+                hoverText.textContent = "Link copy";
+            })
         }
     }
 }
 
+
 function getPosts(category = 'all') {
-    var url = 'http://localhost:5000/get-posts/' + category;
+    var url = 'http://localhost:5000/posts/' + category;
 
     var request = new XMLHttpRequest();
 

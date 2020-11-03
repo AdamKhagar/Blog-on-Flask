@@ -20,6 +20,17 @@ main {
     margin: 20px 30px;
 }
 
+.hidden {
+    display: none !important;
+}
+
+.non-visible {
+    /* visibility: hidden; */
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
 .add-post {
     width: 100%;
     margin: 60px 0 20px 0;
@@ -206,7 +217,8 @@ input {
     word-wrap: break-word;
     white-space: pre-wrap;
     /* max-height: calc(6 * 24px); */
-    width: inherit;
+    align-self: stretch;
+    width: 100%;
     overflow: hidden;
     text-overflow: clip;
     margin-bottom: 20px;
@@ -237,7 +249,7 @@ input {
     margin: 0;
 }
 .post .btn:hover {
-    background: #2c3e50;
+    background: #3498db;
 }
 
 #flash-message {
@@ -288,4 +300,37 @@ input {
 
 .flash-box button:hover{
     background-color: #ecf0f1;
+}
+.copy-link-btn {
+    position: relative;
+    display: inline-block;
+}
+.copy-link-btn .hovertext{
+    visibility: hidden;
+    background-color: #34495e;
+    color: white;
+    height: 24px;
+    width: 90px;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 2.5px;
+    padding: 3px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 40.5px;
+    left: 13px;  
+    margin-left: -55px;
+    opacity: 0;
+    text-transform: none;
+    transition: background-color 0.2s,  opacity 0.4s;
+}
+.copy-link-btn:hover .hovertext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.hovertext.clicked {
+    width: 82px;
+    transform: translateX(8px);
+    background-color: #8e44ad;
 }
