@@ -1,157 +1,130 @@
-body {
-    font-family: 'Montesserat';
-    color:#2c3e50;
-    /* background: #ecf0f1; */
+
+.post {
+    margin-top: 20px;
+    border: #34495e solid 2px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
 }
 
-main {
+.post-head {
+    display: flex;
     width: 100%;
-    display: flex;
-    margin-top: 40px;
+    justify-content: space-between;
+}
+
+.post.not-found {
+    border-color: #e74c3c;
+    color:#e74c3c;
     justify-content: center;
-    /* min-height: 100vh; */
-    margin-bottom: 20px;
-    
-}
-
-.main {
-    background-color: white;
-}
-
-a {
-    text-decoration: none;
-    color: #2c3e50;
-}
-
-.hidden {
-    display: none !important; 
-}
-
-*, :hover, :active {
-    /* border: none; */
-    outline: none;
-}
-
-.logo {
-    font-size: 22px;
-    width: 30px ;
-    color: #34495e;
-    transition: color 0.3s ease-in-out;
-}
-
-.logo:hover {
-    color: #3498db;
-}
-
-.error {
-    display: block;
-    color: #e74c3c;
-    border: #e74c3c solid 2px;
-    border-radius: 5px;
-    font-size: 14px;
-    line-height: 21px;
-    margin: 20px 0;
-    padding: 10px 15px;
-    min-height: 20px;
-    display: flex;
     align-items: center;
+    font-size: 20px;
+    line-height: 30px;
 }
 
-.main {
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    min-width: 500px;
-    border: 2px solid #34495e;
-    border-radius: 10px;
-    padding: 30px 20px 20px 20px;
-}
-
-h1 {
-    font-size: 48px;
-    font-weight: 500;
-    margin: 20px 0;
-    text-transform: uppercase;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.field {
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0;
-}
-
-.field:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-label {
+.post .title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 54px;
     margin-bottom: 10px;
-    font-size: 18px;
-    align-self: flex-start;
 }
 
-input,
-select,
-textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px solid #34495e;
+.post a.author-link {
+    color: #9b59b6;    
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.post a.author-link:hover {
+    color: #8e44ad;
+}
+.post .author {
+    font-family: 'Roboto Mono';
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+}
+.post .date {
+    font-size: 10px;
+    line-height: 15px;
+    margin-bottom: 10px;
+}
+    
+.post .content {
+    font-size: 16px;
+    line-height: 24px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    /* max-height: calc(6 * 24px); */
+    /* text-indent: 20px; */
+    align-self: stretch;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: clip;
+    margin-bottom: 30px;
+}
+.post-buttons {
+    display: flex;
+    align-self: stretch;
+    justify-content: space-between;
+}
+
+.post-buttons  .btn {
+    border: none;
     appearance: none;
     outline: none;
-    font-size: 16px;
-    color: #2c3e50;
-    transition: background-color 0.3s, border-color 0.3s ease-in-out;
-}
 
-
-input[type="text"] {
-    height: 20px;
-    font-size: 16px; 
-}
-
-input[type="submit"] {
-    background-color: #34495e;
-    margin-bottom: 0;
-    color: white;
-    height: 40px;
-    padding: 0;
-}
-
-input:hover, textarea:hover, select:hover{
-    border-color: #3498db;
-}
-
-input[type="submit"]:hover {
-    background-color: #3498db;
-}
-
-select {
-    line-height: 20px;
-}
-
-textarea {
-    resize: vertical;
-    padding: 15px;
+    background: #34495e;
     line-height: 24px;
-    overflow: hidden;
-    transition: all 0.3s ease-in-out;
+    font-size: 15px;
+    color: white;
+    border-radius: 3px;
+    padding: 3px 20px;
+    margin-right: 5px;
+
+    transition: background-color 0.3s ease-in-out;
 }
 
-textarea.prev {
-    min-height: 150px;
-    max-height: 250px;
+.post-buttons  div .btn:last-child {
+    margin: 0;
+}
+.post-buttons .btn:hover {
+    background: #3498db;
 }
 
-textarea.prev::after {
-    content: '0/1000'
+.post-buttons .copy-link-btn {
+    position: relative;
+    display: inline-block;
+}
+.post-buttons .copy-link-btn .hovertext{
+    visibility: hidden;
+    background-color: #34495e;
+    color: white;
+    height: 24px;
+    width: 90px;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 2.5px;
+    padding: 3px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 40.5px;
+    left: 13px;  
+    margin-left: -55px;
+    opacity: 0;
+    text-transform: none;
+    transition: background-color 0.2s,  opacity 0.4s;
+}
+.post-buttons  .copy-link-btn:hover .hovertext {
+    visibility: visible;
+    opacity: 1;
 }
 
-textarea.content { 
-    min-height: 300px;
+.post-buttons .hovertext.clicked {
+    width: 82px;
+    transform: translateX(8px);
+    background-color: #8e44ad;
 }
+

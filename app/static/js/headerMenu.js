@@ -11,7 +11,7 @@ function pasteUsername () {
 
     request.onload = function() {
         username.textContent = '@' + request.response.username;
-        let len = username.textContent.length * 10;
+        let len = username.textContent.length * 10 + 10;
         if (len < 120) {
             len = 120;
         }

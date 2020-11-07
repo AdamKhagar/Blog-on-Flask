@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/new-post.css">
+    <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
+    <title>New Post</title>
+</head>
+<body>
+    <main>
+        <div class="main">
+            <a href="{{ url_for('main') }}"><div class="logo">aison</div></a>
+            <h1>New post</h1>
+            {% for category, message in  get_flashed_messages(with_categories=true) %}
+            <div class="error">{{ message }}</div>
+            {% endfor %}
+            <form action="" method="POST">
+                <!-- <div class="field">
+                    <label for="title">Title</label>
+                    <input type="text" id="title">
+                </div>
+                <div class="field">
+                    <label for="">Tags</label>
+                    <input type="text" id="tags">
+                </div>
+                <div class="field">
+                    <label for="category">Category</label>
+                    <select name="category" id="category">
+                        <option value="py">Python</option>
+                        <option value="js">JavaScritpt</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="post">Post text</label>
+                    <textarea id="post">Post ...</textarea>
+                </div>
+                <div class="field">
+                    <input type="submit" value="Post">
+                </div> -->
+                {{ form.csrf_token() }}
+                {% for field in form if field.name != "csrf_token" %}
+                <div class='field'>
+                    {{ field.label()}}
+                    {{ field() }}
+                        {% for error in field.errors %}
+                        <div class="error">{{ error }}</div>
+                        {% endfor %}  
+                </div>
+                {% endfor %}
+                
+            </form>
+        </div>
+    </main>
+    <script src="../static/js/newPost.js"></script>
+</body>
+</html>

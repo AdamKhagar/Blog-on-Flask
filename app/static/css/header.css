@@ -11,8 +11,8 @@
 
 .header {
     display: flex;
-    width: 50%;
-    min-width: 600px;
+    width: 60%;
+    min-width: 800px;
     justify-content: space-between;
     height: 40px;
     align-items: center;
@@ -68,7 +68,7 @@
     font-size: 16px;
     line-height: 39px;
     color: white;
-    padding: 0 2.5px 0 2.5px;
+    padding: 0 5px 0 5px;
     box-sizing: border-box;
     width: inherit;
     text-align: center;

@@ -1,0 +1,157 @@
+body {
+    font-family: 'Montesserat';
+    color:#2c3e50;
+    /* background: #ecf0f1; */
+}
+
+main {
+    width: 100%;
+    display: flex;
+    margin-top: 40px;
+    justify-content: center;
+    /* min-height: 100vh; */
+    margin-bottom: 20px;
+    
+}
+
+.main {
+    background-color: white;
+}
+
+a {
+    text-decoration: none;
+    color: #2c3e50;
+}
+
+.hidden {
+    display: none !important; 
+}
+
+*, :hover, :active {
+    /* border: none; */
+    outline: none;
+}
+
+.logo {
+    font-size: 22px;
+    width: 30px ;
+    color: #34495e;
+    transition: color 0.3s ease-in-out;
+}
+
+.logo:hover {
+    color: #3498db;
+}
+
+.error {
+    display: block;
+    color: #e74c3c;
+    border: #e74c3c solid 2px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 20px 0;
+    padding: 10px 15px;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    min-width: 500px;
+    border: 2px solid #34495e;
+    border-radius: 10px;
+    padding: 30px 20px 20px 20px;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 500;
+    margin: 20px 0;
+    text-transform: uppercase;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.field:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+label {
+    margin-bottom: 10px;
+    font-size: 18px;
+    align-self: flex-start;
+}
+
+input,
+select,
+textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #34495e;
+    appearance: none;
+    outline: none;
+    font-size: 16px;
+    color: #2c3e50;
+    transition: background-color 0.3s, border-color 0.3s ease-in-out;
+}
+
+
+input[type="text"] {
+    height: 20px;
+    font-size: 16px; 
+}
+
+input[type="submit"] {
+    background-color: #34495e;
+    margin-bottom: 0;
+    color: white;
+    height: 40px;
+    padding: 0;
+}
+
+input:hover, textarea:hover, select:hover{
+    border-color: #3498db;
+}
+
+input[type="submit"]:hover {
+    background-color: #3498db;
+}
+
+select {
+    line-height: 20px;
+}
+
+textarea {
+    resize: vertical;
+    padding: 15px;
+    line-height: 24px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+textarea.prev {
+    min-height: 150px;
+    max-height: 250px;
+}
+
+textarea.prev::after {
+    content: '0/1000'
+}
+
+textarea.content { 
+    min-height: 300px;
+}

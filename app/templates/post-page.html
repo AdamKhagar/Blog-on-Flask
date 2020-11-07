@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/post.css">
+    <link rel="stylesheet" href="../static/css/post-page.css">
+    <title>{{ post['title'] }}</title>
+</head>
+<body>
+    <header> {% include "header.html" %}</header>
+    <main>
+    <div class="main">
+        <div class="post-buttons buttons">
+            <div class="left">
+                <button class="go-back-btn btn">Go back</button>
+            </div>
+            <div class="right">
+                <button class="save-btn btn">Save</button>
+                <button class="copy-link-btn btn"><div class="hovertext">Link copy</div>Link</button>
+            </div>
+        </div>
+        <div class="post">
+            <div class="post-head">
+                <div class="left">
+                    <div class="title">{{ post['title'] }}</div>
+                    <a class="author-link" href=""><div class="author">{{ post['author'] }}</div></a>
+                    <div class="date">{{ post['pub_date'] }}</div>
+                </div>
+                <div class="right">fdas</div>
+            </div>
+            <div class="title-img"></div>
+            <div class="content">{{ post['content'] }}</div> 
+        </div>
+    </div>
+    </main>
+    <footer>{% include "footer.html" %}</footer>
+</body>
+</html>

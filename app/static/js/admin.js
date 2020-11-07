@@ -141,7 +141,6 @@ function showDeleteCategoryForm(categories) {
     submit.value = data.submitValue;
 
     categories.forEach(function(category) {
-        
         let field = document.createElement('div');
         field.classList.add('option');
         let optionInput = document.createElement('input');
@@ -153,10 +152,10 @@ function showDeleteCategoryForm(categories) {
         optionInput.classList.add('hidden');
         optionLabel.htmlFor = optionInput.id;
         optionLabel.textContent = category.value;
-        field.insertBefore(optionLabel, field.lastChild);
-        field.insertBefore(optionInput, field.lastChild);
+        field.appendChild(optionLabel);
+        field.appendChild(optionInput);
         
-        select.insertBefore(field,select.lastChild);
+        select.appendChild(field);
     })
     
 

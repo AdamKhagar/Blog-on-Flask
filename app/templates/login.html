@@ -16,19 +16,6 @@
         <div class="error">{{ message }}</div>
         {% endfor %}
         <form action='' method="POST">
-            <!-- <div class="field">
-                <label for="login">Username</label>
-                <input type="text" name="" id="login">
-            </div>
-            <div class="field">
-                <label for="pass">Password</label>
-                <input type="password" name="" id="pass">
-            </div>
-            <div class="field">
-                <label for="remember" class="text">Remember me</label>
-                <input type="checkbox" name="remember" id="remember" class="remember">
-            </div>
-            -->
             {{ form.csrf_token() }}
             {% for field in form if field.name != "csrf_token" %}
             <div class="field">

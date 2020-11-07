@@ -35,7 +35,7 @@ function addPosts(posts) {
             
 
             // readAllBtn.setAttribute('post-id', data.id);
-            let linkText = 'localhost:5000/post/' + data.id;
+            let linkText = '/post/' + data.id;
             link.type = "text";
             link.value = linkText;
             link.classList.add("non-visible");
@@ -45,12 +45,12 @@ function addPosts(posts) {
             date.textContent = data.pub_date;
             content.innerHTML = data.prev_content;
             author.textContent = '@' + data.author;
-            readAllBtn.setAttribute("onclick", "location.href='/post" + data.id + "'")
+            readAllBtn.setAttribute("onclick", "location.href='/post/" + data.id + "'")
 
             let authorLinkURL = '/author_page/' + data.author;
             authorLink.setAttribute('href', authorLinkURL)
 
-            postsBox.insertBefore(post, postsBox.lastChild);
+            postsBox.appendChild(post);
             post.appendChild(link)
             
             let hoverText = copyLinkBtn.querySelector(".hovertext");
@@ -74,7 +74,7 @@ function addPosts(posts) {
 
 
 function getPosts(category = 'all') {
-    var url = 'http://localhost:5000/posts/' + category;
+    var url = '/posts/' + category;
 
     var request = new XMLHttpRequest();
 

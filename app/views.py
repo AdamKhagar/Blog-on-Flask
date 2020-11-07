@@ -105,18 +105,32 @@ def new_post():
         db.session.commit()
         
         return redirect(url_for('main'))
-    return render_template('post.html', form=form)
+    return render_template('new-post.html', form=form)
 
 
-@app.route('/get-posts/<category_id>', methods=['POST', 'GET'])
+@app.route('/posts/<category_id>')
 def get_posts(category_id): 
-    if category_id.isdigit(): 
+    try: 
         category_id = int(category_id)
         posts = db.session.query(Post).filter(Post.category_id == category_id).all();      
-    else:
+    except ValueError:
         posts = db.session.query(Post).all()
     
-    return jsonify({'posts': [post.get(True) for post in posts]})
+    return jsonify({'posts': [post.get() for post in posts]})
+
+
+@app.route('/post/<post_id>')
+def get_post(post_id):
+    try: 
+        post:Post = Post.get_by_id(post_id)
+    except AttributeError:
+        return Response(status=404)
+
+    try: 
+        return render_template('post-page.html', post = post)
+    except TypeError: 
+        print(post)
+
 
 
 @app.route('/get-categories')
