@@ -138,6 +138,7 @@ select {
 textarea {
     resize: vertical;
     padding: 15px;
+    font-size: 15px;
     line-height: 24px;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
@@ -148,9 +149,6 @@ textarea.prev {
     max-height: 250px;
 }
 
-textarea.prev::after {
-    content: '0/1000'
-}
 
 textarea.content { 
     min-height: 300px;

@@ -12,12 +12,35 @@ main {
     /* min-height: calc(100vh - 270px); */
 }
 
+.main h1 {
+    font-size: 38px;
+    line-height: 57px;
+    font-weight: 500;
+}
+
+.main h2 {
+    font-size: 32px;
+    line-height: 48px;
+    font-weight: 500;
+}
+
+.main h3 {
+    font-size: 26px;
+    line-height: 39px;
+    font-weight: 500;
+}
+
+.main h4 {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 500;
+}
 .main {
     display: flex;
     flex-direction: column;
     width: 60%;
     min-width: 800px;
-    align-items: center;
+    align-items: stretch;
     margin: 20px 30px;
 }
 
@@ -29,4 +52,174 @@ main {
     position: absolute;
     z-index: -1;
     opacity: 0;
+}
+.post {
+    margin-bottom: 30px;
+}
+.post-comments {
+    border-radius: 5px;
+    border: #34495e solid 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+}
+
+.post-comments .comment-form {
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: 2px solid #34495e;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.post-comments .comment-form textarea {
+    appearance: none;
+    border: none; 
+    outline: none;
+
+    margin-bottom: 10px;
+    padding: 10px;
+    resize: none;
+    font-size: 15px;
+    line-height: 24px;
+    min-height: 72px;
+    height: 72px;
+    border-bottom: 2px solid #34495e;
+    transition: border-color 0.3s linear;
+}
+
+.post-comments .comment-form textarea:focus, 
+.post-comments .comment-form textarea:hover {
+    appearance: none;
+    outline: none;
+    border-bottom-color: #3498db;
+}
+
+.post-comments .comment-form input[type="submit"] {
+    width: 100px;
+    height: 36px;
+    border: none;
+    appearance: none;
+    margin-right: -1px;
+    border-radius: 3px;
+    align-self: flex-end;
+    background-color: #34495e;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Montesserat';
+    transition: color 0.3s, background-color 0.3s linear;
+}
+
+.post-comments .comment-form input[type="submit"]:hover {
+    color: white;
+    background-color: #3498db;
+}
+
+.post-comments .comment-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-comments .comment {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #34495e;
+    border-radius: 5px;
+    padding: 20px;
+
+
+}
+
+.post-comments .comment-list .comment:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.post-comments .comment-header {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.post-comments .comment-header div:not(:last-child),
+.post-comments .comment-footer div:not(:last-child) {
+    margin-right: 10px;
+}
+
+.post-comments .username, 
+.post-comments .replied-comment-author {
+    color: #9b59b6; 
+}
+
+.post-comments .username:hover, 
+.post-comments .replied-comment-author:hover {
+    color: #8e44ad;
+}
+
+.post-comments .username, 
+.post-comments .reply-to {
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.post-comments .date {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.post-comments .comment-footer {
+    margin-top: 5px;
+    display: flex;
+    height: 16px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.post-comments .comment-footer .like {
+    height: 16px;
+    display: flex;
+    flex-direction: row;
+    margin-right: 3px !important;
+}
+
+
+.post-comments .comment-footer .comment-like {
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+.post-comments .comment-footer .comment-like-count {
+    font-size: 16px;
+    height: 16px;
+    margin: 0 5px;
+    
+}
+
+.post-comments .comment-footer button {
+    border: none;
+    appearance: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.post-comments .comment-footer button:hover {
+    border: none;
+    appearance: none;
+    outline: none;
+}
+
+.post-comments .childs {
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+    padding-left: 50px;
+    background-color: rgba(236, 240, 241, 0.9);
 }
