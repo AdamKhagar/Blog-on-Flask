@@ -51,7 +51,8 @@ a {
    
 .error {
     display: block;
-    color: #e74c3c;
+    width: 100%;
+    /* color: #e74c3c; */
     border: #e74c3c solid 2px;
     border-radius: 5px;
     font-size: 14px;
@@ -61,6 +62,8 @@ a {
     min-height: 20px;
     display: flex;
     align-items: center;
+    background-color: rgba(243, 156, 18, 0.05);
+    box-sizing: border-box;
 }
 
 form {

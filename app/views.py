@@ -11,7 +11,7 @@ from flask_login import (
 )
 from sqlalchemy.exc import IntegrityError
 from app import app, db
-from .models import User, Post, Category, Tag, Blacklist
+from .models import User, Post, Category, Tag, Blacklist, Adminlist, Comment
 from .forms import LoginForm, RegisterForm, PostForm
 from .utils import admin_required
 
@@ -88,50 +88,72 @@ def licence():
 @login_required
 def new_post():
     form = PostForm()
-    if form.validate_on_submit() and request.method == 'POST':
-        post = Post()
-        post.title = form.title.data
-        post.category_id = form.category.data
-        post.prev_text = form.preview_text.data
-        post.content = form.text.data
-        post.author_id = current_user.get_id()
+    if request.method == 'POST'and form.validate_on_submit():
+        try:
+            post = Post()
+            post.title = form.title.data
+            post.category_id = form.category.data
+            post.prev_text = form.preview_text.data
+            post.content = form.text.data
+            post.author_id = current_user.get_id()
 
-        tags = form.tags.data.split()
+            tags = form.tags.data.split()
 
-        Tag.new_tags(tags)
-        post.tags.extend(Tag.get_tags(tags))
-        
-        db.session.add(post)
-        db.session.commit()
-        
+            Tag.new_tags(tags)
+            post.tags.extend(Tag.get_tags(tags))
+            
+            db.session.add(post)
+            db.session.commit()
+        except Exception as e:
+            print(e.args)
+
         return redirect(url_for('main'))
-    return render_template('new-post.html', form=form)
+    else:
+        return render_template('new-post.html',form = form)
 
 
 @app.route('/posts/<category_id>')
 def get_posts(category_id): 
     try: 
         category_id = int(category_id)
-        posts = db.session.query(Post).filter(Post.category_id == category_id).all();      
+        posts = db.session.query(Post).filter(Post.category_id == category_id).all()
     except ValueError:
         posts = db.session.query(Post).all()
     
-    return jsonify({'posts': [post.get() for post in posts]})
+    return jsonify({'posts': [post.get_dict() for post in posts]})
 
 
 @app.route('/post/<post_id>')
 def get_post(post_id):
     try: 
-        post:Post = Post.get_by_id(post_id)
+        post = Post.get(post_id)
     except AttributeError:
         return Response(status=404)
+    else: 
+        if current_user.is_authenticated:
+            current_user.add_post_to_history(post_id)
+        else:
+            # нужно добавить в models отдельный счетчик количества загрузок поста для не зарегистрованных
+            pass
 
     try: 
-        return render_template('post-page.html', post = post)
+        return render_template('post-page.html', post = post.get_dict())
     except TypeError: 
         print(post)
 
 
+@login_required
+@app.route('/post/<int:post_id>/comment-post', methods=["POST", "GET"])
+def comment_post(post_id:int):
+    try:
+        request_data = request.get_json()
+        comment = Comment.comment_post(post_id,\
+                current_user.get_id(), request_data['text'])
+    except Exception as e:
+        print(e.args)
+        return Response(status=404)
+    else:
+        return comment
 
 @app.route('/get-categories')
 def get_categories():
@@ -143,27 +165,34 @@ def unauth_handler():
     flash("Authorize please to access this page")
     return redirect(url_for("login"))
 
+
 @app.route('/current-user-info')
 @login_required
 def get_current_user_info():
     user = db.session.query(User).filter(
         User.id == current_user.get_id()).first()
-    return jsonify(user.get())
+    return jsonify(user.get_dict())
+
 
 @app.route('/my-page')
 @login_required
 def get_my_page():
-    pass
+    user = db.session.query(User).filter(
+        User.id == current_user.get_id()).first()
+    return jsonify(user.get_dict())
+
 
 @app.route('/my-posts')
 @login_required
 def get_my_posts():
     pass
 
+
 @app.route('/bug-report')
 @login_required
 def bug_report(): 
     pass
+
 
 @app.route('/admin')
 @login_required
@@ -171,9 +200,11 @@ def bug_report():
 def admin():
     return render_template('admin.html')
 
+
 @app.route('/favicon.ico')
 def favicon():
     return redirect('/static/favicon.ico')
+
 
 @login_required
 @admin_required
@@ -185,8 +216,8 @@ def get_statistics():
     }
     return jsonify(stat)
 
-@app.route('/from-admin/del-post', methods=['POST'])
 
+@app.route('/from-admin/del-post', methods=['POST'])
 @app.route('/from-admin/advertise', methods=['POST'])
 @login_required
 @admin_required

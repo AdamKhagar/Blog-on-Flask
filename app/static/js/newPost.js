@@ -9,11 +9,9 @@ textPreview.addEventListener('keyup', function(){
             qtyOfStrings++;
         }
     }
-    var heihgtValue = 24 * (1 + qtyOfStrings);
-    if (heihgtValue <= 150) {
-        heihgtValue = 150;
-    } 
-    textPreview.style.height = heihgtValue + 'px';
+    if(this.scrollTop > 0){
+        this.style.height = this.scrollHeight + "px";
+    }
 });
 
 textContent.addEventListener('keyup', function(){
@@ -24,9 +22,32 @@ textContent.addEventListener('keyup', function(){
             qtyOfStrings++;
         }
     }
-    var heihgtValue = 24 * (1 + qtyOfStrings);
-    if (heihgtValue <= 300) {
-        heihgtValue = 300;
-    } 
-    textContent.style.height = heihgtValue + 'px';
+    if(this.scrollTop > 0){
+        this.style.height = this.scrollHeight + "px";
+    }
 });
+
+// заполнение select
+
+function pasteOption() {
+    let select = document.querySelector('select#category-select');
+    let request = new XMLHttpRequest();
+
+    function paste(category) {
+        let option = document.createElement('option');
+        option.id = category.key;
+        option.textContent = category.value;
+        select.appendChild(option);
+    }
+
+    request.open('GET', '/get-categories', true);
+    request.responseType = 'json';
+    request.send();
+
+    request.onload = function () {
+        let categories = request.response.categories;
+        categories.forEach(category => paste(category));
+    }
+};
+
+// pasteOption()

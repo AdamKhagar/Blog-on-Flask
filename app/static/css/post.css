@@ -81,6 +81,7 @@
 
 .post a.author-link:hover {
     color: #8e44ad;
+    text-decoration: underline;
 }
 .post .author {
     font-family: 'Roboto Mono';
@@ -104,6 +105,30 @@
     overflow: hidden;
     text-overflow: clip;
     margin-bottom: 30px;
+}
+
+.post .content h1{
+    font-size: 26px;
+    line-height: 39px;
+    font-weight: 500;
+}
+
+.post .content h2 {
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 500;
+}
+
+.post .content h3 {
+    font-size: 22px;
+    line-height: 33px;
+    font-weight: 500;
+}
+
+.post .content h4 {
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 500;
 }
 
 .post-buttons {

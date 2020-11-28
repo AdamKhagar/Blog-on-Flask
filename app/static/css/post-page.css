@@ -44,6 +44,11 @@ main {
     margin: 20px 30px;
 }
 
+input.copy-link {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
 .hidden {
     display: none !important;
 }
@@ -58,11 +63,11 @@ main {
 }
 .post-comments {
     border-radius: 5px;
-    border: #34495e solid 2px;
+    /* border: #34495e solid 2px; */
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 .post-comments .comment-form {
@@ -76,11 +81,23 @@ main {
     margin-bottom: 20px;
 }
 
+.comment-form div {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.comment-form .counter {
+    font-size: 14px;
+}
+
 .post-comments .comment-form textarea {
     appearance: none;
     border: none; 
     outline: none;
 
+    width: 100%;
     margin-bottom: 10px;
     padding: 10px;
     resize: none;
@@ -89,7 +106,12 @@ main {
     min-height: 72px;
     height: 72px;
     border-bottom: 2px solid #34495e;
-    transition: border-color 0.3s linear;
+    overflow: hidden;
+    transition: all 0.3s linear;
+}
+
+.post-comments .comment-form textarea.error{
+    border-bottom: 2px solid #e74c3c !important;
 }
 
 .post-comments .comment-form textarea:focus, 
@@ -104,6 +126,7 @@ main {
     height: 36px;
     border: none;
     appearance: none;
+    outline: none;
     margin-right: -1px;
     border-radius: 3px;
     align-self: flex-end;
@@ -112,12 +135,27 @@ main {
     font-size: 16px;
     font-weight: 500;
     font-family: 'Montesserat';
-    transition: color 0.3s, background-color 0.3s linear;
+    opacity: 1;
+    transition: color 0.3s, background-color 0.3s, opacity 0.3s linear;
+}
+
+.post-comments .comment-form input[type="submit"]:disabled {
+    opacity: 0.8;
+}
+
+.post-comments .comment-form input[type="submit"]:focus {
+    appearance: none;
+    outline: none;
+    border: none;
 }
 
 .post-comments .comment-form input[type="submit"]:hover {
     color: white;
     background-color: #3498db;
+}
+
+.post-comments .comment-form input[type="submit"]:hover:disabled {
+    background-color: #34495e;
 }
 
 .post-comments .comment-list {
@@ -131,8 +169,6 @@ main {
     border: 2px solid #34495e;
     border-radius: 5px;
     padding: 20px;
-
-
 }
 
 .post-comments .comment-list .comment:not(:last-child) {
@@ -141,6 +177,7 @@ main {
 
 .post-comments .comment-header {
     display: flex;
+    height: 18px;
     align-items: baseline;
     margin-bottom: 5px;
 }
@@ -172,11 +209,8 @@ main {
 }
 
 .post-comments .comment-footer {
-    margin-top: 5px;
     display: flex;
-    height: 16px;
-    font-size: 14px;
-    line-height: 16px;
+    margin-bottom: 10px;
 }
 
 .post-comments .comment-footer .like {
@@ -195,8 +229,8 @@ main {
 }
 
 .post-comments .comment-footer .comment-like-count {
-    font-size: 16px;
-    height: 16px;
+    /* font-size: 16px; */
+    /* height: 16px; */
     margin: 0 5px;
     
 }
@@ -205,13 +239,87 @@ main {
     border: none;
     appearance: none;
     outline: none;
-    background-color: transparent;
+    background-color: #34495e;
+    font-size: 12px;
+    line-height: 18px;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-family: 'Montesserat';
+    transition: background-color 0.3s ease;
 }
 
+.post-comments .comment-footer button:not(:last-child) {
+    margin-right: 5px;
+}
+
+.post-comments .reply-form-box form {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(236, 240, 241, 0.4);
+    border: 1px solid #34495e;
+    border-radius: 3px;
+    padding: 10px 10px 5px 10px;
+
+}
+
+.post-comments .reply-form-box form .left{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-right: 20px;
+}
+.post-comments .reply-form-box textarea,
+.post-comments .reply-form-box textarea:hover,
+.post-comments .reply-form-box textarea:focus {
+    appearance: none;
+    border: none;
+    outline: none;
+}
+
+.post-comments .reply-form-box textarea {
+    width: 100%;
+    font-size: 14px;
+    line-height: 21px;
+    background-color: transparent;
+    flex-grow: 1;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    resize: none;
+}
+
+.post-comments .reply-form-box button[type="submit"] {
+    appearance: none;
+    border: none;
+    outline: none;
+
+    display: block;
+    padding: 3px 10px;
+    background-color: #34495e;
+    font-size: 14px;
+    line-height: 21px;
+    height: 26px;
+    border-radius: 3px;
+    color: white;
+    font-family: 'Montesserat';
+    transition: background-color 0.3s ease;
+    
+}
+
+.post-comments .reply-form-box button[type="submit"]:hover {
+    background-color: #3498db;
+}
+
+.post-comments .reply-form-box .counter{
+    font-size: 12px;
+    line-height: 18px;
+}
 .post-comments .comment-footer button:hover {
     border: none;
     appearance: none;
     outline: none;
+    background-color: #3498db;
 }
 
 .post-comments .childs {
@@ -219,7 +327,47 @@ main {
     padding: 10px;
     display: flex;
     flex-direction: column;
-    padding-top: 5px;
+    /* padding-top: 5px; */
     padding-left: 50px;
     background-color: rgba(236, 240, 241, 0.9);
+}
+
+.post-comments a.author-link {
+    color: #9b59b6;    
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.post-comments a.author-link:hover {
+    color: #8e44ad;
+    text-decoration: underline;
+}
+.post-comments .author {
+    font-family: 'Roboto Mono';
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+}
+.post-comments .date {
+    font-size: 10px;
+    line-height: 15px;
+    margin-bottom: 10px;
+}
+    
+.post-comments .text {
+    font-size: 14px;
+    line-height: 21px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    align-self: stretch;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: clip;
+    margin-bottom: 10px;
+}
+
+.post-comments .childs .reply-count {
+    font-size: 14px;
+    line-height: 21px;
+
 }

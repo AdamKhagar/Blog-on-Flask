@@ -32,22 +32,27 @@ function addPosts(posts) {
             let copyLinkBtn = post.querySelector(".copy-link-btn");
             let link = document.createElement("input");
             let readAllBtn = post.querySelector(".read-all-btn");
+            let viewCount = post.querySelector("span.view-count");
+            let likeCount = post.querySelector("span.like-count");
+            let dislikeCount = post.querySelector("span.dislike-count");
+            let commentCount = post.querySelector("span.comment-count")
             
-
-            // readAllBtn.setAttribute('post-id', data.id);
-            let linkText = '/post/' + data.id;
+            let linkText = window.location.host + '/post/' + data.id;
             link.type = "text";
             link.value = linkText;
             link.classList.add("non-visible");
             post.setAttribute('post-id', data.id);
             post.setAttribute('category-id', data.category_id);
             title.textContent = data.title;
-            date.textContent = data.pub_date;
-            content.innerHTML = data.prev_content;
+            date.textContent = data.publication_date;
+            content.innerHTML = data.prev_text;
             author.textContent = '@' + data.author;
             readAllBtn.setAttribute("onclick", "location.href='/post/" + data.id + "'")
-
-            let authorLinkURL = '/author_page/' + data.author;
+            viewCount.textContent = data.views;
+            likeCount.textContent = data.likes;
+            dislikeCount.textContent = data.dislikes;
+            commentCount.textContent = data.comments.length;
+            let authorLinkURL = '/author/' + data.author;
             authorLink.setAttribute('href', authorLinkURL)
 
             postsBox.appendChild(post);
@@ -86,10 +91,9 @@ function getPosts(category = 'all') {
         var responce = request.response;
         var posts = responce.posts;
         postsBox.innerHTML = '';
-        addPosts(posts)
-        
+        console.log(posts);
+        addPosts(posts);
     }
-
 };
 
 getPosts()
@@ -117,3 +121,4 @@ options.forEach(function(opt, i) {
     })
 })
 
+// Post save btn

@@ -18,6 +18,7 @@
             </div>
             <div class="right">
                 <button class="save-btn btn">Save</button>
+                <input type="text" class="copy-link">
                 <button class="copy-link-btn btn"><div class="hovertext">Link copy</div>Link</button>
             </div>
         </div>
@@ -29,7 +30,7 @@
                             <path fill="#34495e" d="M12 9C11.206 9.00524 10.4459 9.32299 9.88447 9.88447C9.32299 10.4459 9.00524 11.206 9 12C9 13.642 10.358 15 12 15C13.641 15 15 13.642 15 12C15 10.359 13.641 9 12 9Z" fill="black"/>
                             <path fill="#34495e" d="M12 5C4.36701 5 2.07301 11.617 2.05201 11.684L1.94601 12L2.05101 12.316C2.07301 12.383 4.36701 19 12 19C19.633 19 21.927 12.383 21.948 12.316L22.054 12L21.949 11.684C21.927 11.617 19.633 5 12 5ZM12 17C6.64901 17 4.57601 13.154 4.07401 12C4.57801 10.842 6.65201 7 12 7C17.351 7 19.424 10.846 19.926 12C19.422 13.158 17.348 17 12 17V17Z" fill="black"/>
                             </svg>
-                        <span class="view-count">0</span>
+                        <span class="view-count">{{ post['views'] }}</span>
                     </div>
                     <div class="likes">
                         <div class="like-btn">
@@ -40,7 +41,7 @@
                                 </svg>
                             </label>
                         </div>
-                        <span class="like-count">0</span>
+                        <span class="like-count">{{ post['likes'] }}</span>
                     </div>
                     <div class="dislikes">
                         <div class="dislike-btn">
@@ -51,117 +52,105 @@
                                 </svg>   
                             </label>
                         </div>
-                        <span class="dislike-count">0</span>
+                        <span class="dislike-count">{{ post['dislikes'] }}</span>
                     </div>
                     <div class="comments">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill="#34495e" d="M7 7H17V9H7V7ZM7 11H14V13H7V11Z" fill="black"/>
                             <path fill="#34495e" d="M20 2H4C2.897 2 2 2.897 2 4V22L7.333 18H20C21.103 18 22 17.103 22 16V4C22 2.897 21.103 2 20 2ZM20 16H6.667L4 18V4H20V16Z" fill="black"/>
                             </svg>
-                        <span class="comment-count">0</span>
+                        <span class="comment-count">{{ post['comment_count'] }}</span>
                     </div>
                 </div>
                 <div class="title-box">
                     <div class="title">{{ post['title'] }}</div>
-                    <a class="author-link" href=""><div class="author">@{{ post['author'] }}</div></a>
-                    <div class="date">{{ post['pub_date'] }}</div>
+                    <a class="author-link" href="/author/{{ post['author'] }}"><div class="author">@{{ post['author'] }}</div></a>
+                    <div class="date">{{ post['publication_date'] }}</div>
                     <div class="title-img"></div>
                 </div>
             </div>
-            <div class="content">{{ post['content'] }}</div> 
+            <div class="content" >{{ post['content']|safe }}</div> 
         </div>
         <h2>Comments</h2>
         <div class="post-comments">
-            <form class="comment-form" action="">
-                <textarea name="comment" id="comment">Your comment ...</textarea>
-                <input type="submit" value="Send">
+            <form class="comment-form">
+                <div>
+                    <textarea name="comment" id="comment" placeholder="Your comment ..."></textarea>
+                </div>
+                <div>
+                    <div class="counter"><span class="count">0</span>/1000</div>
+                    <input type="submit" class="submit"  value="Send">
+                </div>
             </form>
             <div class="comment-list">
-                <div class="comment">
+            {% for comment in post['comments'] %}
+                <div comment-id="{{ comment['id'] }}" class="comment">
                     <div class="comment-header">
-                        <div class="username">@adam_ozgary</div>
-                        <div class="date">20.10.2020 19:11</div>
+                        <div class="author"><a class="author-link" href="/author/{{ comment['author'] }}">@{{ comment['author'] }}</a></div>
+                        <div class="date">{{ comment['date'] }}</div>
                     </div>
-                    <div class="text">321</div>
+                    <div class="text">{{ comment['text'] }}</div>
                     <div class="comment-footer">
-                        <div class="like">
-                            <button class="comment-like"><svg width="16" height="16" viewBox="0 3 22 20" fill="none">
-                                <path fill="#34495e" d="M20 8H14.388L15.511 4.633C15.713 4.025 15.611 3.351 15.236 2.831C14.861 2.311 14.253 2 13.612 2H12C11.703 2 11.422 2.132 11.231 2.36L6.531 8H4C2.897 8 2 8.897 2 10V19C2 20.103 2.897 21 4 21H17.307C17.7139 20.9986 18.1108 20.8738 18.4452 20.6421C18.7797 20.4103 19.0359 20.0825 19.18 19.702L21.937 12.351C21.9789 12.2387 22.0002 12.1198 22 12V10C22 8.897 21.103 8 20 8ZM4 10H6V19H4V10ZM20 11.819L17.307 19H8V9.362L12.468 4H13.614L12.052 8.683C12.0013 8.83332 11.9871 8.99355 12.0107 9.15043C12.0343 9.3073 12.095 9.45629 12.1877 9.58504C12.2803 9.71379 12.4024 9.8186 12.5436 9.89076C12.6849 9.96293 12.8414 10.0004 13 10H20V11.819Z" fill="black"/>
-                            </svg></button>
-                            <div class="comment-like-count">0</div>
-                        </div>
-                        <button class="reply-comment"><svg width="16" height="16" viewBox="4 5 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#34495e" d="M10 11H16V18H18V10C18 9.73478 17.8946 9.48043 17.7071 9.29289C17.5196 9.10536 17.2652 9 17 9H10V6L5 10L10 14V11Z" fill="black"/>
-                        </svg></button>
+                        <button class="reply-btn">Reply</button>
+                        <button class="show-close-comments">Show comments <span class="reply-coount">({{ comment['child']|length }})</span></button>     
                     </div>
-                    <div class="childs">
-                        <div class="comment-child">
-                            <div class="comment-header">
-                                <div class="username">@adam_ozgary</div>
-                                <div class="date">09.11.2020 14:23</div>
-                                <div class="reply-to">Reply to <span class="replied-comment-author">@adam_ozgary</div></div>
-                            </div>
-                            <div class="text">123</div>
-                            <div class="comment-footer">
-                                <div class="like">
-                                    <button class="comment-like"><svg width="16" height="16" viewBox="0 3 22 20" fill="none">
-                                        <path fill="#34495e" d="M20 8H14.388L15.511 4.633C15.713 4.025 15.611 3.351 15.236 2.831C14.861 2.311 14.253 2 13.612 2H12C11.703 2 11.422 2.132 11.231 2.36L6.531 8H4C2.897 8 2 8.897 2 10V19C2 20.103 2.897 21 4 21H17.307C17.7139 20.9986 18.1108 20.8738 18.4452 20.6421C18.7797 20.4103 19.0359 20.0825 19.18 19.702L21.937 12.351C21.9789 12.2387 22.0002 12.1198 22 12V10C22 8.897 21.103 8 20 8ZM4 10H6V19H4V10ZM20 11.819L17.307 19H8V9.362L12.468 4H13.614L12.052 8.683C12.0013 8.83332 11.9871 8.99355 12.0107 9.15043C12.0343 9.3073 12.095 9.45629 12.1877 9.58504C12.2803 9.71379 12.4024 9.8186 12.5436 9.89076C12.6849 9.96293 12.8414 10.0004 13 10H20V11.819Z" fill="black"/>
-                                    </svg></button>
-                                    <div class="comment-like-count">0</div>
-                                </div>
-                                <button class="reply-comment"><svg width="16" height="16" viewBox="4 5 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="#34495e" d="M10 11H16V18H18V10C18 9.73478 17.8946 9.48043 17.7071 9.29289C17.5196 9.10536 17.2652 9 17 9H10V6L5 10L10 14V11Z" fill="black"/>
-                                </svg></button>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="reply-form-box"></div>
+                    <div class="childs hidden"></div>
                 </div>
+            {% endfor %}
             </div>
         </div>
         <template>
             <div class="comment-template">
                 <div class="comment">
                     <div class="comment-header">
-                        <div class="username"></div>
+                        <div class="author"><a class="author-link"></a></div>
                         <div class="date"></div>
                     </div>
                     <div class="text"></div>
                     <div class="comment-footer">
-                        <div class="like">
-                            <button class="comment-like"><svg width="16" height="16" viewBox="0 3 22 20" fill="none">
-                                <path fill="#34495e" d="M20 8H14.388L15.511 4.633C15.713 4.025 15.611 3.351 15.236 2.831C14.861 2.311 14.253 2 13.612 2H12C11.703 2 11.422 2.132 11.231 2.36L6.531 8H4C2.897 8 2 8.897 2 10V19C2 20.103 2.897 21 4 21H17.307C17.7139 20.9986 18.1108 20.8738 18.4452 20.6421C18.7797 20.4103 19.0359 20.0825 19.18 19.702L21.937 12.351C21.9789 12.2387 22.0002 12.1198 22 12V10C22 8.897 21.103 8 20 8ZM4 10H6V19H4V10ZM20 11.819L17.307 19H8V9.362L12.468 4H13.614L12.052 8.683C12.0013 8.83332 11.9871 8.99355 12.0107 9.15043C12.0343 9.3073 12.095 9.45629 12.1877 9.58504C12.2803 9.71379 12.4024 9.8186 12.5436 9.89076C12.6849 9.96293 12.8414 10.0004 13 10H20V11.819Z" fill="black"/>
-                            </svg></button>
-                            <div class="comment-like-count">0</div>
-                        </div>
-                        <button class="reply-comment"><svg width="16" height="16" viewBox="4 5 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#34495e" d="M10 11H16V18H18V10C18 9.73478 17.8946 9.48043 17.7071 9.29289C17.5196 9.10536 17.2652 9 17 9H10V6L5 10L10 14V11Z" fill="black"/>
-                        </svg></button><button class="show-close-comments"></button>
+                        <button class="reply-btn">Reply</button>
+                        <button class="show-close-comments">Show comments</button>
+                        <div class="reply-form-box"></div>
                     </div>
-                    <div class="childs"></div>
+                    <div class="childs hidden"></div>
                 </div>
             </div> 
-            <div class="comment-child-template">
-                <div class="comment-child">
+            <div class="reply-comment-template">
+                <div class="reply-comment">
                     <div class="comment-header">
-                        <div class="username"></div>
+                        <div class="author">Reply<a class="author-link"></a></div>
                         <div class="date"></div>
-                        <div class="reply-comment">Reply to <span class="replied-comment-author">@adam_ozgary</span></div>
+                        <div class="reply-to">Reply to <a class="replied-comment-author"></a></div>
                     </div>
                     <div class="text"></div>
                     <div class="comment-footer">
-                        <div class="like">
-                            <button class="comment-like"><svg width="16" height="16" viewBox="0 3 22 20" fill="none">
-                                <path fill="#34495e" d="M20 8H14.388L15.511 4.633C15.713 4.025 15.611 3.351 15.236 2.831C14.861 2.311 14.253 2 13.612 2H12C11.703 2 11.422 2.132 11.231 2.36L6.531 8H4C2.897 8 2 8.897 2 10V19C2 20.103 2.897 21 4 21H17.307C17.7139 20.9986 18.1108 20.8738 18.4452 20.6421C18.7797 20.4103 19.0359 20.0825 19.18 19.702L21.937 12.351C21.9789 12.2387 22.0002 12.1198 22 12V10C22 8.897 21.103 8 20 8ZM4 10H6V19H4V10ZM20 11.819L17.307 19H8V9.362L12.468 4H13.614L12.052 8.683C12.0013 8.83332 11.9871 8.99355 12.0107 9.15043C12.0343 9.3073 12.095 9.45629 12.1877 9.58504C12.2803 9.71379 12.4024 9.8186 12.5436 9.89076C12.6849 9.96293 12.8414 10.0004 13 10H20V11.819Z" fill="black"/>
-                            </svg></button>
-                            <div class="comment-like-count">0</div>
-                        </div>
-                        <button class="reply-comment"><svg width="16" height="16" viewBox="4 5 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#34495e" d="M10 11H16V18H18V10C18 9.73478 17.8946 9.48043 17.7071 9.29289C17.5196 9.10536 17.2652 9 17 9H10V6L5 10L10 14V11Z" fill="black"/>
-                        </svg></button>
+                        <button class="reply-btn"></button>
+                        <div class="reply-form-box hidden"></div>
                     </div>
                 </div>
             </div>
+            <div class="reply-form-template">
+                <form class="reply-form">
+                    <div class="left">
+                        <textarea class="reply-text"></textarea>
+                        <div class="counter"><span class="count">0</span>/1000</div>
+                    </div>
+                    <div class="right">
+                        <button type="submit">Reply</button>
+                    </div>  
+                </form>
+            </div>
+            <div class="comment-like">
+                                        <!-- <div class="like">
+                            <button class="comment-like"><svg width="16" height="16" viewBox="0 3 22 20" fill="none">
+                                <path fill="#34495e" d="M20 8H14.388L15.511 4.633C15.713 4.025 15.611 3.351 15.236 2.831C14.861 2.311 14.253 2 13.612 2H12C11.703 2 11.422 2.132 11.231 2.36L6.531 8H4C2.897 8 2 8.897 2 10V19C2 20.103 2.897 21 4 21H17.307C17.7139 20.9986 18.1108 20.8738 18.4452 20.6421C18.7797 20.4103 19.0359 20.0825 19.18 19.702L21.937 12.351C21.9789 12.2387 22.0002 12.1198 22 12V10C22 8.897 21.103 8 20 8ZM4 10H6V19H4V10ZM20 11.819L17.307 19H8V9.362L12.468 4H13.614L12.052 8.683C12.0013 8.83332 11.9871 8.99355 12.0107 9.15043C12.0343 9.3073 12.095 9.45629 12.1877 9.58504C12.2803 9.71379 12.4024 9.8186 12.5436 9.89076C12.6849 9.96293 12.8414 10.0004 13 10H20V11.819Z" fill="black"/>
+                            </svg></button>
+                            <div class="comment-like-count">0</div>
+                        </div> -->
+            </div>
         </template>
+        <script src="../static/js/postPage.js"></script>
     </div>
     </main>
     <footer>{% include "footer.html" %}</footer>
