@@ -11,7 +11,8 @@ from flask_login import (
 )
 from sqlalchemy.exc import IntegrityError
 from app import app, db
-from .models import User, Post, Category, Tag, Blacklist, Adminlist, Comment
+from .models import User, Post, Category, Tag, Blacklist, Adminlist, Comment,\
+        PosteNotFoundError
 from .forms import LoginForm, RegisterForm, PostForm
 from .utils import admin_required
 
@@ -123,27 +124,36 @@ def get_posts(category_id):
     return jsonify({'posts': [post.get_dict() for post in posts]})
 
 
-@app.route('/post/<post_id>')
-def get_post(post_id):
+@app.route('/post/<int:post_id>')
+def get_post(post_id: int):
     try: 
         post = Post.get(post_id)
-    except AttributeError:
+        if not isinstance(post, Post):
+            raise PosteNotFoundError
+    except PosteNotFoundError:
         return Response(status=404)
     else: 
+        is_liked = False
+        is_disliked = False
         if current_user.is_authenticated:
-            current_user.add_post_to_history(post_id)
+            current_user.add_post_to_history(post)
+            post_score = current_user.get_post_score(post_id)
+            is_liked = post_score['is_liked']
+            is_disliked = post_score['is_disliked']
         else:
             # нужно добавить в models отдельный счетчик количества загрузок поста для не зарегистрованных
             pass
 
-    try: 
-        return render_template('post-page.html', post = post.get_dict())
-    except TypeError: 
-        print(post)
+    return render_template('post-page.html',
+            post = post.get_dict(),
+            comments = Comment.get_post_comments(post_id),
+            is_liked = is_liked,
+            is_disliked = is_disliked
+    )
 
 
 @login_required
-@app.route('/post/<int:post_id>/comment-post', methods=["POST", "GET"])
+@app.route('/post/<int:post_id>/comment-post', methods=["POST"])
 def comment_post(post_id:int):
     try:
         request_data = request.get_json()
@@ -153,16 +163,55 @@ def comment_post(post_id:int):
         print(e.args)
         return Response(status=404)
     else:
-        return comment
+        return jsonify(comment)
+
+
+@login_required
+@app.route('/post/<int:post_id>/like/<int:is_like>', methods=["POST"])
+def like_post(post_id: int, is_like):
+    if bool(is_like):
+        current_user.like_post(post_id)
+    else: 
+        current_user.dislike_post(post_id)
+
+    post = Post.query.get(post_id)
+    post_likes = {
+        'likes': post.like_count,
+        'dislikes': post.dislike_count, 
+        'views': post.view_count,
+        'comments': post.comment_count
+    }
+    return jsonify(post_likes)
+
+
+@login_required
+@app.route('/post/<int:post_id>/like-comment/<int:comment_id>')
+def like_comment(post_id: int, comment_id:int):
+    return jsonify({"like_count":current_user.like_comment(comment_id)})
+
+
+@login_required
+@app.route('/post/<int:post_id>/reply-comment', methods=["POST"])
+def reply_comment(post_id: int):
+    try: 
+        request_data = request.get_json()
+        print(request_data)
+        reply = Comment.reply_comment(post_id, \
+                current_user.get_id(), request_data['text'], request_data['replyedCommentId'])
+    except Exception as e:
+        print(e.args)
+        return Response(status=404)
+    else: 
+        return jsonify(reply)
 
 @app.route('/get-categories')
 def get_categories():
     return jsonify({'categories': Category.get_dict_list()})
 
 
-@app.login_manager.unauthorized_handler
+@login_manager.unauthorized_handler
 def unauth_handler():
-    flash("Authorize please to access this page")
+    flash("Authorize please to access to all features")
     return redirect(url_for("login"))
 
 

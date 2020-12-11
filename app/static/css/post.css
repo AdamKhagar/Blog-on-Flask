@@ -53,7 +53,10 @@
     transition: fill 0.1s linear;
 }
 
-.post-head .statistics input[name="like"]:checked + label svg path {
+.post-head .statistics input#like:checked + label svg path {
+    fill: #3498db;
+}
+.post-head .statistics input#dislike:checked + label svg path {
     fill: #e74c3c;
 }
 

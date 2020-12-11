@@ -152,8 +152,9 @@ function showDeleteCategoryForm(categories) {
         optionInput.classList.add('hidden');
         optionLabel.htmlFor = optionInput.id;
         optionLabel.textContent = category.value;
-        field.appendChild(optionLabel);
         field.appendChild(optionInput);
+        field.appendChild(optionLabel);
+   
         
         select.appendChild(field);
     })

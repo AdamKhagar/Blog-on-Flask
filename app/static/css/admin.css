@@ -14,9 +14,9 @@ main {
 }
 
 .hidden {
-    visibility: hidden;
+    opacity: 0;
+    z-index: -1;
     position: absolute;
-    /* z-index: -1; */
 }
 
 button:focus, input[type="submit"]:focus{
@@ -219,7 +219,9 @@ form, .form-box, .input-box {
     align-items: center;
     /* padding: 5px 0; */
 }
-
+#del-category-select input{
+    display: inline;
+}
 #del-category-select .option label {
     width: 100%;
     padding: 5px 0;
@@ -234,8 +236,8 @@ form, .form-box, .input-box {
 }
 
 #del-category-select .option input:checked + label {
-    color: white;
-    background-color: #34495e;
+    color: white !important;
+    background-color: #34495e !important;
 }
 
 #question-box {

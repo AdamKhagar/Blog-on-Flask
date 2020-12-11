@@ -51,7 +51,7 @@ function addPosts(posts) {
             viewCount.textContent = data.views;
             likeCount.textContent = data.likes;
             dislikeCount.textContent = data.dislikes;
-            commentCount.textContent = data.comments.length;
+            commentCount.textContent = data.comment_count;
             let authorLinkURL = '/author/' + data.author;
             authorLink.setAttribute('href', authorLinkURL)
 
