@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/font.css">
+    <link rel="stylesheet" href="../static/css/user-page.css">
+    <link rel="stylesheet" href="../static/css/post.css">
+    <title>{{ user['username'] }}</title>
+</head>
+<body>
+    <header>{% include "header.html" %}</header>
+    <main>
+    <div class="main">
+        <div class="info-box">
+            <img class="photo" src="../static/svg/alt-photo.svg">
+            <div class="info">
+                <div class="name">{{ user['name'] }} {{ user['lastname'] }}</div>
+                <div class="username">@{{ user['username'] }}</div>
+                <div class="description">   
+                    {% if descritption|length == 0 %}
+                    <button class="show-description-form-btn btn">Add descritption</button>
+                    {% else %}
+                    <p>О себе:</p>
+                    <div class="description-text">{{ descritption }}</div>
+                    <button class="show-description-form-btn btn">Change</button>
+                    {% endif %}
+                    <form class="set-description hidden">
+                        <div class="text">
+                            <textarea name="description"> {{ descritption }}</textarea>
+                            <div class="counter"><span class="count">0</span>/1000</div>
+                        </div>
+                        {% if descritption|length == 0 %}
+                        <input class="btn" type="submit" value="Add">
+                        {% else %}
+                        <input class="btn" type="submit" value="Change">
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="posts">
+            <a href="{{ url_for('new_post') }}" class="add-post-btn"><div>Add-post</div></a>        
+            {% for post in posts %}
+            <div class="post ok">
+                <div class="post-head">
+                <div class="statistics">
+                    <div class="views">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                            <path fill="#34495e" fill-rule="evenodd" clip-rule="evenodd" d="M1.5 15C1.5 9.15 6.15 4.5 12 4.5C17.85 4.5 22.5 9.15 22.5 15H21C21 10.05 16.95 6 12 6C7.05 6 3 10.05 3 15H1.5ZM7.5 15C7.5 12.45 9.45 10.5 12 10.5C14.55 10.5 16.5 12.45 16.5 15C16.5 17.55 14.55 19.5 12 19.5C9.45 19.5 7.5 17.55 7.5 15ZM9 15C9 16.65 10.35 18 12 18C13.65 18 15 16.65 15 15C15 13.35 13.65 12 12 12C10.35 12 9 13.35 9 15Z" fill="black"/>
+                        </svg>                            
+                        <span class="view-count">{{ post['views'] }}</span>
+                    </div>
+                    <div class="likes">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#34495e" d="M20 8H14.388L15.511 4.633C15.713 4.025 15.611 3.351 15.236 2.831C14.861 2.311 14.253 2 13.612 2H12C11.703 2 11.422 2.132 11.231 2.36L6.531 8H4C2.897 8 2 8.897 2 10V19C2 20.103 2.897 21 4 21H17.307C17.7139 20.9986 18.1108 20.8738 18.4452 20.6421C18.7797 20.4103 19.0359 20.0825 19.18 19.702L21.937 12.351C21.9789 12.2387 22.0002 12.1198 22 12V10C22 8.897 21.103 8 20 8ZM4 10H6V19H4V10ZM20 11.819L17.307 19H8V9.362L12.468 4H13.614L12.052 8.683C12.0013 8.83332 11.9871 8.99355 12.0107 9.15043C12.0343 9.3073 12.095 9.45629 12.1877 9.58504C12.2803 9.71379 12.4024 9.8186 12.5436 9.89076C12.6849 9.96293 12.8414 10.0004 13 10H20V11.819Z" fill="black"/>
+                        </svg>
+                        <span class="like-count">{{ post['likes'] }}</span>
+                    </div>
+                    <div class="dislikes">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#34495e" d="M20 3H6.693C6.28611 3.00135 5.88922 3.12616 5.55478 3.35792C5.22035 3.58969 4.96413 3.91749 4.82 4.298L2.063 11.649C2.02114 11.7613 1.9998 11.8802 2 12V14C2 15.103 2.897 16 4 16H9.612L8.49 19.367C8.38997 19.6676 8.36264 19.9877 8.41027 20.301C8.4579 20.6142 8.57913 20.9117 8.764 21.169C9.14 21.689 9.746 22 10.388 22H12C12.297 22 12.578 21.868 12.769 21.64L17.469 16H20C21.103 16 22 15.103 22 14V5C22 3.897 21.103 3 20 3ZM11.531 20H10.386L11.948 15.316C11.998 15.1657 12.0117 15.0058 11.9878 14.8492C11.9639 14.6926 11.9032 14.544 11.8106 14.4155C11.7181 14.287 11.5963 14.1823 11.4554 14.1101C11.3144 14.0379 11.1584 14.0001 11 14H4V12.181L6.693 5H16V14.638L11.531 20ZM18 14V5H20L20.001 14H18Z" fill="black"/>
+                        </svg>   
+                        <span class="dislike-count">{{ post['dislikes'] }}</span>
+                    </div>
+                    <div class="comments">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#34495e" d="M7 7H17V9H7V7ZM7 11H14V13H7V11Z" fill="black"/>
+                            <path fill="#34495e" d="M20 2H4C2.897 2 2 2.897 2 4V22L7.333 18H20C21.103 18 22 17.103 22 16V4C22 2.897 21.103 2 20 2ZM20 16H6.667L4 18V4H20V16Z" fill="black"/>
+                            </svg>
+                        <span class="comment-count">{{ post['comment_count'] }}</span>
+                    </div>
+                </div>
+                <div class="title-box">
+                    <div class="title">{{ post['title'] }}</div>
+                    <!-- <a class="author-link" href=""><div class="author"></div></a> -->
+                    <div class="date">{{ post['publication_date'] }}</div>
+                    <div class="title-img"></div>
+                    </div>
+                </div>
+                <div class="content"></div>
+                <div class="post-buttons">
+                    <div class="left">
+                        <input type="button" class="read-all-btn btn" value="Read All">
+                    </div>
+                    <div class="right">
+                        <button class="save-btn btn">Save</button>
+                        <input type="text" class="copy-link">
+                        <button class="copy-link-btn btn"><div class="hovertext">Link copy</div>Link</button>
+                    </div>
+                </div>   
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </main>
+    <footer>{% include "footer.html" %}</footer>
+</body>
+</html>

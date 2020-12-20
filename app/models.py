@@ -2,13 +2,13 @@ from app import db
 from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import desc, func, text
+from sqlalchemy import desc, func, text, delete, insert
+
 
 class Model(db.Model):
     __abstract__ = True 
     
     def _get_dict(self, _dict=None, rels=False):
-        # возвращает объект в dict
         if _dict is None or not isinstance(_dict, dict):
             _dict = {}
         
@@ -17,16 +17,9 @@ class Model(db.Model):
             if not key.startswith('_'):
                 _dict[key] = getattr(self, key)
 
-        # if rels:
-        #     relationships = self.__table__.relationships.keys()
-        #     for rel in relationships:
-        #         if not rel.startswith('_'):
-        #             _dict[rel] = getattr(self.rel)
-
         return _dict
 
     def get_dict(self):
-        # возвращает _get_dict()
         return self._get_dict()
 
 
@@ -44,7 +37,6 @@ class PostView(Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), primary_key=True)
 
 
-
 class PostLike(Model):
     __tablename__ = 'post_likes'
      
@@ -59,9 +51,9 @@ class PostDislike(Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), primary_key=True)
 
 
-subscribers = db.Table('subscribers',
+subscriptions = db.Table('subscriptions',
     db.Column("author_id", db.Integer(), db.ForeignKey('users.id'), primary_key=True),
-    db.Column("subscriber_id", db.Integer(), db.ForeignKey('users.id'), primary_key=True)
+    db.Column("user_id", db.Integer(), db.ForeignKey('users.id'), primary_key=True)
 )
 
 class User(Model, UserMixin):
@@ -73,20 +65,21 @@ class User(Model, UserMixin):
     email = db.Column(db.String(), nullable=False, unique=True)
     _password_hash = db.Column(db.String(), nullable=False)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow())
+    _description = db.Column(db.String())
+
     _watched = db.relationship('Post', secondary="post_views", backref='watcher')
     _liked = db.relationship('Post', secondary="post_likes", backref='liker')
     _disliked = db.relationship('Post', secondary="post_dislikes", backref='disliker')
     _saved = db.relationship('Post', secondary="save_post", backref='saver')
-
     posts = db.relationship('Post', backref='author', cascade='all,delete-orphan')
     comments = db.relationship('Comment', backref='author', cascade='all,delete-orphan')
-    subscribers = db.relationship('User', 
-        secondary=subscribers,
-        primaryjoin="User.id == subscribers.c.author_id", 
-        secondaryjoin="User.id == subscribers.c.subscriber_id")
+    subscriptions = db.relationship('User', 
+        secondary=subscriptions,
+        primaryjoin="User.id == subscriptions.c.user_id", 
+        secondaryjoin="User.id == subscriptions.c.author_id")
 
     def __repr__(self):
-        return self.username
+        return '< @{} >'.format(self.username)
 
     def set_password(self, password:str):
         self._password_hash = generate_password_hash(password)
@@ -183,13 +176,50 @@ class User(Model, UserMixin):
 
     def get_posts(self):
         posts = db.session.query(Tag).filter(Tag.author_id == self.id).all()
-        return [post.get() for post in posts]
+        return [post.get_dict() for post in posts]
         
     def get_dict(self):
         return super()._get_dict({
-            'is_admin': self.is_admin,
-            'my_posts': [post.get_dict() for post in self.posts]
-            })
+            'is_admin': self.is_admin
+        })
+    
+    def add_subscribe(self, subscribe_id):
+        self.subscriptions.append(User.query.get(subscribe_id))
+        db.session.commit()
+
+        return len(self.subscriptions)
+
+    def del_subscribe(self, subscribe_id):
+        stmt = (
+            delete(subscriptions).\
+            where(subscriptions.c.user_id == self.id).
+            where(subscriptions.c.author_id == subscribe_id)
+        )
+        db.engine.execute(stmt)
+        db.session.commit()
+        return True
+
+    def get_subscribers(self):
+        return [x.get_dict() for x in db.session.query(subscriptions).\
+                filter(subscriptions.c.author_id == self.id).all()]
+
+    def get_subscribes(self):
+        return [x.get_dict for x in self.subscriptions]
+
+    def get_user_posts(self):
+        posts = db.session.query(Post, func.count(PostLike.user_id).label("total")).\
+                outerjoin(PostLike).group_by(Post.id).filter(Post.author_id == self.id).\
+                order_by(text("total DESC")).all()
+
+        return [post.get_dict()for post, _ in posts]
+
+    def set_description(self, description):
+        self._description = description
+        db.session.add(self)
+        db.session.commit()
+        
+    def get_description(self):
+        return self._description
 
     @property
     def is_admin(self):
@@ -204,7 +234,6 @@ class Adminlist(Model):
     __tablename__ = 'adminlist'
 
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), primary_key=True)
-
     user = db.relationship('User', backref=db.backref("in_adminlist", uselist=False))
 
 
@@ -270,11 +299,7 @@ class Tag(db.Model):
         return db.session.query(Tag).filter(Tag.name in tags).all()
 
 
-class PosteNotFoundError(Exception):
-    pass
-
-
-
+class PosteNotFoundError(Exception):pass
 
 class Post(Model):
     __tablename__ = 'posts'
@@ -313,21 +338,21 @@ class Post(Model):
             'views': self.view_count,
             'likes': self.like_count,
             'dislikes': self.dislike_count,
-            'comment_count': len(self._comments)
+            'comment_count': len(self._comments),
+            'tags': [tag.name for tag in self.tags]
         })
 
-    def like(self, user_id):
-        self._likes.extend
-    @staticmethod
-    def like_post(post_id):
-        post = db.session.query(Post).get(post_id)
-        post._likes.extend
+    def add_tags(self, tags):
+        Tag.new_tags(tags)
+        self.tags.extend(Tag.get_tags(tags))
+        db.session.add(self)
+        db.session.commit()
+
     @staticmethod
     def get(id:int):
         post = db.session.query(Post).filter(Post.id == id).first()
         return post
  
-
 
 class NotReplyedCommentError(Exception): pass
 
@@ -337,10 +362,12 @@ comment_like = db.Table('comment_like',
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id'), primary_key=True)
 )
 
+
 reply_comment = db.Table('reply_comment', 
     db.Column('comment_id', db.Integer(), db.ForeignKey('comments.id'), primary_key=True),
     db.Column('reply_id', db.Integer(), db.ForeignKey('comments.id'), primary_key=True)
 )
+
 
 class Comment(Model): 
     __tablename__ = 'comments'
@@ -359,8 +386,7 @@ class Comment(Model):
         secondary=reply_comment,
         primaryjoin='Comment.id == reply_comment.c.comment_id',
         secondaryjoin='Comment.id == reply_comment.c.reply_id'
-    )
-    
+    )   
 
     def get_dict(self):
         d = {'author': self.author.username}
@@ -372,7 +398,6 @@ class Comment(Model):
             d["replyed_c_id"] = comment_id
 
         return super()._get_dict(_dict=d)
-
     
     @classmethod
     def comment_post(cls, post_id: int, author_id:int, text: str):
@@ -412,7 +437,6 @@ class Comment(Model):
         comments = db.session.query(Comment, func.count(comment_like.c.user_id).label('total')).\
             outerjoin(comment_like).group_by(Comment).filter(Comment.post_id == post_id).\
             filter(Comment.is_first == True).order_by(text('total DESC')).all()
-
 
         comments_list = []
 

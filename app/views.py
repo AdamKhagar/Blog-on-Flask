@@ -99,12 +99,7 @@ def new_post():
             post.author_id = current_user.get_id()
 
             tags = form.tags.data.split()
-
-            Tag.new_tags(tags)
-            post.tags.extend(Tag.get_tags(tags))
-            
-            db.session.add(post)
-            db.session.commit()
+            post.add_tags(tags)
         except Exception as e:
             print(e.args)
 
@@ -214,6 +209,18 @@ def unauth_handler():
     flash("Authorize please to access to all features")
     return redirect(url_for("login"))
 
+@login_required
+@app.route('/add-subscribe/<int:subscribe_id>/')
+def add_subscribe(subscribe_id):
+    current_user.add_subscribe(subscribe_id)
+    return jsonify({'l':[sub.username for sub in current_user.subscriptions]})
+
+
+@login_required
+@app.route('/del-subscribe/<int:subscribe_id>/')
+def del_subscribe(subscribe_id):
+    current_user.del_subscribe(subscribe_id)
+    return jsonify({'l':[sub.username for sub in current_user.subscriptions]})
 
 @app.route('/current-user-info')
 @login_required
@@ -226,9 +233,11 @@ def get_current_user_info():
 @app.route('/my-page')
 @login_required
 def get_my_page():
-    user = db.session.query(User).filter(
-        User.id == current_user.get_id()).first()
-    return jsonify(user.get_dict())
+    return render_template('user_page.html',
+            user = current_user.get_dict(),
+            description = current_user.get_description(),
+            posts = current_user.get_user_posts()
+    )
 
 
 @app.route('/my-posts')

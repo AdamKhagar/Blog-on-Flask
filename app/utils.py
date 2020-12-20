@@ -2,7 +2,7 @@ from functools import wraps
 from flask import redirect, flash
 from flask_login import current_user
 from .models import User, Blacklist
-from app import app, db
+from . import app, db
 
 
 def is_admin():
