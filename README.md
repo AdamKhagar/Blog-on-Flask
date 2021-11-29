@@ -1,5 +1,7 @@
 # Blog
 
+Flask is used as the framework in the project
+
 The idea was to make a site similar to [habr](https://habr.com/). The goal of the project was to understand how websites work and to learn how to use Flask and etc.
 By the way, this is my first big project and so don't be harsh :)
 
