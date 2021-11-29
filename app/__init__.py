@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import confirm_login
 
 
 app = Flask(__name__)
